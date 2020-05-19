@@ -46,7 +46,8 @@ class OnlineGame extends React.Component {
             let pieceToPromoteTo;
             let pieceName = piece.icon.split('-')[1].split('.')[0].toUpperCase()
             for (let availablePiece of availablePieces){
-                if (availablePiece.name.toUpperCase() === pieceName){
+                let tempPiece = new availablePiece(1)
+                if (tempPiece.pieceName.replace(/\s/g, "").toUpperCase() === pieceName){
                     pieceToPromoteTo = new availablePiece(onlinePlayerNumber === 1 ? 2 : 1)
                 }
             }
