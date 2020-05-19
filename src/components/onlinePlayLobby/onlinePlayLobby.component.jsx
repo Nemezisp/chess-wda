@@ -23,7 +23,7 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
             let secondPlayerChosenPieces = [];
             for (let piece of availablePieces){
                 let tempPiece = new piece(1)
-                if (secondPlayerPieceNames.includes(tempPiece.pieceName.replace(/\s/g, ""))){
+                if (secondPlayerPieceNames.includes(tempPiece.pieceName.replace(/\s/g, "").toLowerCase())){
                     secondPlayerChosenPieces.push(piece)
                 }
             }

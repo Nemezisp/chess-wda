@@ -125,7 +125,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                     <ChooseButton onClick = {() => chooseTime(300000, 1)} textOnButton = '5 min' classes = {timeButtonClasses[1]}/>
                     <ChooseButton onClick = {() => chooseTime(900000, 2)} textOnButton = '15 min' classes = {timeButtonClasses[2]}/>
                 </div>
-                <button className = 'submit-button' onClick = {() => isUserRegistered()}>Submit</button>
+                <button className = 'submit-button' onClick = {isUserRegistered}>Submit</button>
                 <Popup open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
                     <MixedArmyPopup whenChosen = {chooseMix} player = {1} pieceList = {availablePieces}/> 
                 </Popup>
