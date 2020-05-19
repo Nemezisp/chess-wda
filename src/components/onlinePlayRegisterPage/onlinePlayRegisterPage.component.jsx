@@ -91,6 +91,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
             })
             let pieceNames = chosenPieces.map(piece => {
                 let tempPiece = new piece(1)
+                console.log(tempPiece.pieceName)
                 return tempPiece.pieceName
             })
             socket.emit('registration', username, army, pieceNames, preferredTime)
@@ -124,9 +125,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                     <ChooseButton onClick = {() => chooseTime(300000, 1)} textOnButton = '5 min' classes = {timeButtonClasses[1]}/>
                     <ChooseButton onClick = {() => chooseTime(900000, 2)} textOnButton = '15 min' classes = {timeButtonClasses[2]}/>
                 </div>
-                <form className = 'online-play-form' onSubmit = {() => isUserRegistered()}>
-                    <input className = 'submit-button' type='submit' value = 'Submit'/>
-                </form>
+                <button className = 'submit-button' onClick = {() => isUserRegistered()}>Submit</button>
                 <Popup open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
                     <MixedArmyPopup whenChosen = {chooseMix} player = {1} pieceList = {availablePieces}/> 
                 </Popup>
