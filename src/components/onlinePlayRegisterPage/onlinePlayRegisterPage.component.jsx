@@ -34,6 +34,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                 }
             }
         }
+        console.log(chosenPieces)
         let newButtonClasses = [null, null, null, null, 'chosen']
         setButtonClasses([...newButtonClasses])
         setMixed(false)
@@ -50,8 +51,8 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
         setButtonClasses([...tempButtonClasses])
 
         for (let piece of availablePieces) {
-            let current = new piece(1)
-            if (current.set === set){ 
+            let tempPiece = new piece(1)
+            if (tempPiece.set === set){ 
                 chosenPieces.push(piece)
             }
         }
