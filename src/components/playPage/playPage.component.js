@@ -60,7 +60,7 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
 
   const checkIfDrawAfterTimeEnded = (player) => {
     for (let piece of pieces) {
-      if (piece.player === player && piece.constructor.name !== 'King'){
+      if (piece.player === player && piece.pieceName !== 'King'){
         return false
       }
     } 
