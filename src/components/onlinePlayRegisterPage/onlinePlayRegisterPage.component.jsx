@@ -91,7 +91,6 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
             })
             let pieceNames = chosenPieces.map(piece => {
                 let tempPiece = new piece(1)
-                console.log(tempPiece.pieceName)
                 return tempPiece.pieceName
             })
             socket.emit('registration', username, army, pieceNames, preferredTime)
