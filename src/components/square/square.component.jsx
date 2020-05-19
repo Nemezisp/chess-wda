@@ -7,7 +7,7 @@ export const Square = ({color, piece, canBeMovedTo, index, click, size, reversed
     let reversedClass = reversed ? 'reversed' : '';
 
     let toRender = piece.number ? 
-                   <img className = {reversedClass} alt = {piece.icon} src = {require('./../pieces/piece-icons/' + piece.icon)}/> : <div style = {{height: size, width: size}}/>;
+                   <img className = {reversedClass} alt = {piece.icon} src = {require('./../pieces/piece-icons/' + piece.icon)}/> : <div style = {{height: size, width: size}}>&nbsp;</div>;
 
     let onClick = click ? () => click(piece, index) : null
 
