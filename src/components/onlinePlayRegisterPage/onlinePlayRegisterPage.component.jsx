@@ -34,7 +34,6 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                 }
             }
         }
-        console.log(chosenPieces)
         let newButtonClasses = [null, null, null, null, 'chosen']
         setButtonClasses([...newButtonClasses])
         setMixed(false)
@@ -91,7 +90,8 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                 preferredTime: preferredTime
             })
             let pieceNames = chosenPieces.map(piece => {
-                return piece.name
+                let tempPiece = new piece(1)
+                return tempPiece.pieceName
             })
             socket.emit('registration', username, army, pieceNames, preferredTime)
             return true
