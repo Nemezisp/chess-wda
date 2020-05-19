@@ -77,7 +77,8 @@ const PieceChooser = ({setUniquePieces, setStartingPosition}) => {
     const chooseMix = (pieces) => {
         for (let chosenPiece of pieces){
             for (let piece of availablePieces) {
-                if (chosenPiece.pieceName === piece.pieceName) {
+                let tempPiece = new piece(1)
+                if (chosenPiece.pieceName === tempPiece.pieceName) {
                     chosenPieces.push(piece)
                     break;
                 }
