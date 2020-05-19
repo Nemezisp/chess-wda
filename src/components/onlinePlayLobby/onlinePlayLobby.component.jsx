@@ -22,7 +22,7 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
         socket.on('startGame', (playerNumber, secondPlayerPieceNames, secondPlayerUsername) => {
             let secondPlayerChosenPieces = [];
             for (let piece of availablePieces){
-                if (secondPlayerPieceNames.includes(piece.pieceName)){
+                if (secondPlayerPieceNames.includes(piece.name)){
                     secondPlayerChosenPieces.push(piece)
                 }
             }
