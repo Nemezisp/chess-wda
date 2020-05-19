@@ -21,7 +21,6 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
     useEffect(() => {
         socket.on('startGame', (playerNumber, secondPlayerPieceNames, secondPlayerUsername) => {
             let secondPlayerChosenPieces = [];
-            console.log(secondPlayerPieceNames)
             for (let piece of availablePieces){
                 let tempPiece = new piece(1)
                 if (secondPlayerPieceNames.includes(tempPiece.pieceName.replace(/\s/g, ""))){

@@ -5,7 +5,7 @@ export default class HalfDuck {
         this.set = 4;
         this.icon = this.player === 1 ? 'white-half_duck.svg' : 'black-half_duck.svg';
         this.symbol = "HD";
-        this.pieceName = "halfDuck"
+        this.pieceName = "Half Duck"
     }
 
     maybePossibleMoves (currentSquare, pieces) {
