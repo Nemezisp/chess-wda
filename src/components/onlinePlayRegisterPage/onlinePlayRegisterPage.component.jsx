@@ -27,7 +27,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
         chosenPieces = []
         for (let chosenPiece of pieces){
             for (let piece of availablePieces) {
-                if (chosenPiece.pieceName === piece.name) {
+                if (chosenPiece.pieceName === piece.pieceName) {
                     chosenPieces.push(piece)
                     break;
                 }
