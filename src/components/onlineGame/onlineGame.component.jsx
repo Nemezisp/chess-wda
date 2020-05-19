@@ -18,6 +18,7 @@ import availablePieces from './../pieces/availablePieces';
 
 let castlingPossible;
 let chosenPieceSquare;
+let syncPiecePromotionActive = false;
 
 class OnlineGame extends React.Component {
 
@@ -70,6 +71,18 @@ class OnlineGame extends React.Component {
         })
     }
 
+    componentWillUnmount() {
+        socket.off('changePlayer')
+        socket.off('move')
+        socket.off('castling')
+        socket.off('enpassant')
+        socket.off('promotion')
+        socket.off('addPreviousMove')
+        socket.off('resign')
+        socket.off('drawOffer')
+        socket.off('drawOfferAccepted')
+    }
+
     componentDidUpdate(prevProps) {
         const {updatePreviousMove, player} = this.props
 
@@ -118,6 +131,7 @@ class OnlineGame extends React.Component {
                 if ((pieces[chosenPieceSquare].number === 1 && chosenSquare.toString()[0] === '9') || 
                     (pieces[chosenPieceSquare].number === -1 && chosenSquare.toString()[0] === '2')) { //check for pawn promotion
                     startPromotion()
+                    syncPiecePromotionActive = true
                 } else if (castlingPossible && castlingPossible.length !== 0) { //check for castling
                     this.handleCastling(chosenPieceSquare, chosenSquare);
                 } else if (!this.handleEnPassant(chosenPieceSquare, chosenSquare)) { //check for enpassant, if not just move a piece
@@ -129,7 +143,10 @@ class OnlineGame extends React.Component {
                 socket.emit('addPreviousMove', tempChosenPiece.symbol, chosenPieceSquare, chosenSquare)
 
                 changePlayer()
-                socket.emit('changePlayer')
+                if (!syncPiecePromotionActive) {
+                    socket.emit('changePlayer')
+                }
+                syncPiecePromotionActive = false
             }
             resetMove()
             chosenPieceSquare = null;

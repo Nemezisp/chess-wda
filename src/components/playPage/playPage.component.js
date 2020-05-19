@@ -40,7 +40,7 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
       }
     })
 
-    socket.on('userLeftGame', () => {
+    socket.on('userLeftGame', () => { 
       if (!gameResult && boardReady) {
         onlinePlayerNumber === 1 ? setGameResult('1-0') : setGameResult('0-1')
       }

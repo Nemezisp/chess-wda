@@ -189,17 +189,16 @@ const reducer = (state = INITIAL_STATE, action) => {
                 player: 1,
                 possibleMoves: [],
                 previousMoves: [],
-                previousPositions: [],
                 piecePromotionActive: false,
                 boardReady: false,
                 uniquePieceList: [],
-                help: false,
-                gameEnded: false,
+                help: false, 
+                gameResult: false,
                 notation: true,
-                pawnToRemoveSquare: [],
+                previousPositions: [],
                 movingLocked: false,
-                drawOfferActive: false,
-                gameResult: null
+                onlinePlayerNumber: null,
+                drawOfferActive: false
             }
         default:
             return state;
