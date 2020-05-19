@@ -14,6 +14,11 @@ export default class HalfDuck {
                                     currentSquare+3, currentSquare-3, currentSquare+2, currentSquare-2,
                                     currentSquare+20, currentSquare-20, currentSquare+30, currentSquare-30]
         for (let square of maybepossibleMoves) {
+            if (square === currentSquare + 3 || square === currentSquare - 3){
+               if (String(square).split('')[0] !== String(currentSquare).split('')[0]) {
+                   continue;
+               } 
+            }
             if(pieces[square]) {
                 if (((this.player === 1 && pieces[square].number <= 0) || (this.player === 2 && pieces[square].number >= 0)) && pieces[square].number !== null){
                     possibleMoves.push(square)
