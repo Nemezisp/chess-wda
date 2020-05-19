@@ -1,0 +1,25 @@
+.main-text {
+    text-align: center;
+    font-size: min(30px, 3vw);
+    font-family: "Lucida Console", Monaco, monospace;
+}
+
+.promotion-pieces-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.piece-name {
+    font-size: min(23px, 2.3vw);
+    text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .piece-name{
+        font-size: 13px;
+    }
+
+    .main-text{
+        font-size: 18px;
+    }
+}

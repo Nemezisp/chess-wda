@@ -1,0 +1,21 @@
+.dark-square, .light-square {
+    background-image: url("./../../assets/wood-pattern.png");
+}
+
+.dark-square{
+    background-color: #875416;
+}
+
+.light-square{
+    background-color: #fff9f5;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+.can-be-moved-to {
+    background-color: green;
+}

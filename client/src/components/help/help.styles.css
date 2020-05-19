@@ -1,0 +1,41 @@
+.help-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 3vw;
+    color: white;
+    text-align: center;
+}
+
+.arrows {
+    width: 100%;
+    display: flex;
+}
+
+.arrow {
+    width: 5vw;
+    margin-left: auto;
+}
+
+.arrow-reversed {
+    width: 5vw;
+    margin-right: auto;
+    transform: scaleX(-1);
+}
+
+
+.arrow {
+    color: white;
+}
+
+@media only screen and (max-width: 600px) {
+	.help-container{
+        margin-top: 10px;
+        margin-left: unset;
+    }
+
+    .arrow, .arrow-reversed {
+        width: 25px;
+    }
+}

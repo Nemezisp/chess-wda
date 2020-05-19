@@ -1,0 +1,34 @@
+.online-game {
+    color: white;
+}
+
+.black-popup {
+    background-color: black;
+}
+
+.register-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.username-input {
+    width: 20vw;
+    height: 30px;
+}
+
+.online-play-form {
+    display: flex;
+    justify-content: center;
+}
+
+.submit-button {
+    margin-top: 30px;
+}
+
+.time-chooser {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+}

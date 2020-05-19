@@ -1,0 +1,13 @@
+.current-users-table{
+    color: white;
+}
+
+.current-users-table {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+th {
+    height: 100px;
+}

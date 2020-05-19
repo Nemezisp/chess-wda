@@ -1,0 +1,145 @@
+.main-container {
+  margin-left: auto;
+  margin-right: auto;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.left-board-side {
+  display: grid;
+  height: max(50vw, 320px);
+  width: 113px;
+  margin-right: 10px;
+  text-align: end;
+  font-size: min(15px, 2vw);
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.white-move, .black-move, .game-ended, .white-move-reversed, .black-move-reversed, .draw-offered-menu {
+  color: white
+}
+
+.white-move {
+  grid-row: 3;
+  align-self: end;
+}
+
+.white-move-reversed {
+  grid-row: 1;
+  align-self: start;
+}
+
+.black-move {
+  grid-row: 1;
+  align-self: start;
+}
+
+.black-move-reversed {
+  grid-row: 3;
+  align-self: end;
+}
+
+.game-ended {
+  grid-row: 2;
+  align-self: center;
+}
+
+.draw-offered-menu {
+  grid-row: 2;
+  grid-gap: 7px;
+  align-self: center;
+  display: grid;
+  justify-items: center;
+}
+
+.right-board-side {
+  height: max(50vw, 320px);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.notation-view {
+  display: flex;
+  flex-direction: row;
+}
+
+.username, .opponent-username {
+  margin-left: 1vw;
+  font-size: min(15px, 2vw)
+}
+
+.player-container {
+  margin-top: auto;
+}
+
+.opponent-container {
+  margin-bottom: auto;
+}
+
+.player-container, .opponent-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.time {
+  margin-left: 10px;
+}
+
+.online-result-buttons {
+  margin-left: 10px;
+}
+
+.player-container-small-screen, .opponent-container-small-screen {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-container{
+    display: grid;
+    justify-items: center;
+    align-content: center;
+  }
+
+  .left-board-side {
+    height: auto;
+    margin-right: 0;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .right-board-side {
+    height: auto;
+    font-size: 13px;
+  }
+
+  .black-move {
+    grid-row: 3;
+    align-self: end;
+  }
+
+  .white-move-reversed {
+    grid-row: 3;
+    align-self: end;
+  }
+
+  .player-container, .opponent-container {
+    display: none;
+  }
+
+  .player-container-small-screen, .opponent-container-small-screen {
+    color: white;
+    font-size: 13px;
+    display: inline;
+  }
+
+  .left-board-side-small-screen {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: end;
+  }
+}
