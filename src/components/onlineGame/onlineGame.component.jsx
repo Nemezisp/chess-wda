@@ -52,6 +52,7 @@ class OnlineGame extends React.Component {
             }
             updatePreviousMove(pieceToPromoteTo.symbol)
             piecePromotion(start, target, pieceToPromoteTo)
+            changePlayer()
         })
 
         socket.on('addPreviousMove', (pieceSymbol, startSquare, finalSquare) => {
