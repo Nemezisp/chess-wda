@@ -210,7 +210,8 @@ const mapStateToProps = state => ({
     chosenPieceSquare: state.chosenPieceSquare,
     uniquePieceList: state.uniquePieceList,
     gameEnded: state.gameEnded,
-    movingLocked: state.movingLocked
+    movingLocked: state.movingLocked,
+    gameResult: state.gameResult
 })
 
 const mapDispatchToProps = dispatch => ({
