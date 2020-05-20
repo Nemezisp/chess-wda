@@ -40,12 +40,11 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
       }
     })
 
-    socket.on('userLeftGame', () => { 
-      if (!gameResult && boardReady) {
+    socket.on('userLeftGame', (gameEnded) => { 
+      if (!(gameEnded) && boardReady) {
         onlinePlayerNumber === 1 ? setGameResult('1-0') : setGameResult('0-1')
       }
     })
-
   }, [])
 
   let blackToMoveClass = 'black-move';

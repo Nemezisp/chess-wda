@@ -84,7 +84,7 @@ export const resetGame = () => ({
 
 export const setGameResult = (result) => ({
     type: ActionTypes.SET_GAME_RESULT,
-    payload: {result}
+    payload: result
 })
 
 export const setOnlineGame = () => ({

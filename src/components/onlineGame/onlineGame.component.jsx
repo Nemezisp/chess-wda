@@ -229,6 +229,7 @@ class OnlineGame extends React.Component {
             let gameResult = player === 1 ? '0-1' : '1-0';
             updatePreviousMove('#')
             setGameResult(gameResult)
+            socket.emit('gameEnded')
             return true;
         }
         return false;

@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     boardReady: false,
     uniquePieceList: [],
     help: false, 
-    gameResult: false,
+    gameResult: null,
     notation: true,
     previousPositions: [],
     movingLocked: false,
@@ -111,7 +111,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         case ActionTypes.SET_GAME_RESULT:
             return {
                 ...state,
-                gameResult: action.payload.result,
+                gameResult: action.payload,
                 drawOfferActive: false
             }
         case ActionTypes.SET_POSITION:
@@ -193,7 +193,7 @@ const reducer = (state = INITIAL_STATE, action) => {
                 boardReady: false,
                 uniquePieceList: [],
                 help: false, 
-                gameResult: false,
+                gameResult: null,
                 notation: true,
                 previousPositions: [],
                 movingLocked: false,
