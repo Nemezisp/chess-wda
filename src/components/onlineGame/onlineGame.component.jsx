@@ -94,7 +94,9 @@ class OnlineGame extends React.Component {
                     updatePreviousMove('+');
                 } else {
                     if(!this.checkStalemate()){
-                        this.checkDrawingConditions()
+                        if (this.checkDrawingConditions()) {
+                            socket.emit('gameEnded')
+                        }
                     }
                 }
             }
@@ -239,6 +241,7 @@ class OnlineGame extends React.Component {
         const {setGameResult} = this.props
         if (!this.isMovePossible()){
             setGameResult('1/2 : 1/2')
+            socket.emit('gameEnded')
             return true;
         }
         return false;
