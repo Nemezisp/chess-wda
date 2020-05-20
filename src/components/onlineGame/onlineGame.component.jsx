@@ -108,7 +108,6 @@ class OnlineGame extends React.Component {
             setPossibleMoves, resetMove, makeMove, startPromotion, changePlayer, movingLocked, onlinePlayerNumber} = this.props; 
         let tempPossibleMoves = [];
         let currentPiece = pieces[chosenSquare];  //take a piece from pieces array 
-        console.log(gameResult)
         if (!chosenPieceSquare && !piecePromotionActive && !gameResult && !movingLocked && onlinePlayerNumber === player){ //if a piece is not chosen 
             if((piece.number > 0 && player === 1) || (piece.number < 0 && player === 2)) { //piece has to be in the right color
                 let maybePossibleMoves = currentPiece.maybePossibleMoves(chosenSquare, pieces, previousMoves) //all theoretically possible moves
