@@ -112,8 +112,6 @@ const Notation = ({previousMoves, previousPositions, gameResult, close, setPosit
     let currentMovesToDisplay = new Array(20).fill(0)
     currentMovesToDisplay.unshift(...previousMoves.slice(startingIndex, startingIndex + 20))
 
-    console.log(currentMovesToDisplay)
-
     return (
         <div className = 'notation-container' onKeyDown = {handleKeyDown} tabIndex = '0'>
             <table className = 'moves'>

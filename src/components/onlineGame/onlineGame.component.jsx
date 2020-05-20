@@ -44,7 +44,7 @@ class OnlineGame extends React.Component {
 
         socket.on('promotion', (start, target, piece) => {
             let pieceToPromoteTo;
-            let pieceName = piece.icon.split('-')[1].split('.')[0].toUpperCase()
+            let pieceName = piece.icon.split('-')[1].split('.')[0].replace(/_/g, "").toUpperCase()
             for (let availablePiece of availablePieces){
                 let tempPiece = new availablePiece(1)
                 if (tempPiece.pieceName.replace(/\s/g, "").toUpperCase() === pieceName){
