@@ -116,7 +116,7 @@ const PieceChooser = ({setUniquePieces, setStartingPosition}) => {
                 <PieceChooseMenu classList = {buttonWhiteClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)
                                                                                                                 player = 1}} />
                 <h1>CHOOSE ARMY FOR BLACK</h1>
-                <PieceChooseMenu classList = {blackPieceList} player = {2} choose = {choose} onMixed = {() => {setMixed(true)
+                <PieceChooseMenu classList = {buttonBlackClasses} player = {2} choose = {choose} onMixed = {() => {setMixed(true)
                                                                                                             player = 2}} />
             </div>
         
