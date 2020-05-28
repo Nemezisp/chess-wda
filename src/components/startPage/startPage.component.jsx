@@ -1,21 +1,14 @@
 import React from 'react';
 import './startPage.styles.css';
 import {connect} from 'react-redux';
-import {socket} from './../socket';
 import ChooseButton from './../chooseButton/chooseButton.component';
 import {setLocalGame, setOnlineGame} from '../../redux/actions';
 
 const StartPage = ({setLocalGame, setOnlineGame}) => {
-
-    const onOnlineGameChosen = () => {
-        socket.emit('activate-server')
-        setOnlineGame()
-    }
-
     return (
         <div className = 'start-page'>
             <span className = 'local-play-button'><ChooseButton onClick = {() => setLocalGame()} textOnButton = 'Local play'/></span>
-            <span className = 'online-play-button'><ChooseButton onClick = {() => onOnlineGameChosen()} textOnButton = 'Online play'/></span>
+            <span className = 'online-play-button'><ChooseButton onClick = {() => setOnlineGame()} textOnButton = 'Online play'/></span>
         </div>
     )
 }
