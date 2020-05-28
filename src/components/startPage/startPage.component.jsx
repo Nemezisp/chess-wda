@@ -9,13 +9,13 @@ const StartPage = ({setLocalGame, setOnlineGame}) => {
 
     const onOnlineGameChosen = () => {
         socket.emit('activate-server')
-        setLocalGame()
+        setOnlineGame()
     }
 
     return (
         <div className = 'start-page'>
-            <span className = 'local-play-button'><ChooseButton onClick = {() => onOnlineGameChosen()} textOnButton = 'Local play'/></span>
-            <span className = 'online-play-button'><ChooseButton onClick = {() => setOnlineGame()} textOnButton = 'Online play'/></span>
+            <span className = 'local-play-button'><ChooseButton onClick = {() => setLocalGame()} textOnButton = 'Local play'/></span>
+            <span className = 'online-play-button'><ChooseButton onClick = {() => onOnlineGameChosen()} textOnButton = 'Online play'/></span>
         </div>
     )
 }
