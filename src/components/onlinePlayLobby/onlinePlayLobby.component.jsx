@@ -85,6 +85,7 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
 
     if (users.length) {
         if (!boardReady) {
+            console.log(onlineUserData.id)
             return(
                 <table className = 'current-users-table'>
                     <thead>
@@ -98,6 +99,7 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
                     </thead>
                     <tbody>
                         {users.map((user) => {
+                            console.log(user.id)
                             return (
                                 <tr key = {user.id} className = 'user-in-lobby'>
                                     <td>{user.username} </td>
