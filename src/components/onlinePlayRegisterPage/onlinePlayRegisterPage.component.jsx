@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Popup from "reactjs-popup";
 import './onlinePlayRegisterPage.styles.css'
 import PieceChooseMenu from './../pieceChooseMenu/pieceChooseMenu.component';
@@ -22,6 +22,17 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
     const [username, setUsername] = useState('')
     const [preferredTime, setPrefferedTime] = useState(null)
 
+    useEffect(() => {
+        socket.on('register', (id) => {
+            setUserRegistered(true)
+            setOnlineUserData({
+                username: username,
+                pieces: chosenPieces,
+                id: id,
+                preferredTime: preferredTime
+            })
+        })
+    })
 
     const chooseMix = (pieces) => {
         chosenPieces = []
@@ -82,19 +93,11 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
 
     const isUserRegistered = () => {
         if (chosenPieces.length && username && preferredTime) {
-            setUserRegistered(true)
             let pieceNames = chosenPieces.map(piece => {
                 let tempPiece = new piece(1)
                 return tempPiece.pieceName
             })
             socket.emit('registration', username, army, pieceNames, preferredTime)
-            setOnlineUserData({
-                username: username,
-                pieces: chosenPieces,
-                id: socket.id,
-                preferredTime: preferredTime
-            })
-
             return true
         } else {
             return false
