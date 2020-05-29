@@ -83,17 +83,18 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
     const isUserRegistered = () => {
         if (chosenPieces.length && username && preferredTime) {
             setUserRegistered(true)
+            let pieceNames = chosenPieces.map(piece => {
+                let tempPiece = new piece(1)
+                return tempPiece.pieceName
+            })
+            socket.emit('registration', username, army, pieceNames, preferredTime)
             setOnlineUserData({
                 username: username,
                 pieces: chosenPieces,
                 id: socket.id,
                 preferredTime: preferredTime
             })
-            let pieceNames = chosenPieces.map(piece => {
-                let tempPiece = new piece(1)
-                return tempPiece.pieceName
-            })
-            socket.emit('registration', username, army, pieceNames, preferredTime)
+
             return true
         } else {
             return false
