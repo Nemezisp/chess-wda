@@ -19,7 +19,9 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
     const [users, updateUsers] = useState([])
 
     useEffect(() => {
+        socket.off('startGame')
         socket.on('startGame', (playerNumber, secondPlayerPieceNames, secondPlayerUsername) => {
+            console.log(onlineUserData)
             let secondPlayerChosenPieces = [];
             for (let piece of availablePieces){
                 let tempPiece = new piece(1)
@@ -36,7 +38,7 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
             opponentUsername = secondPlayerUsername
             setStartingPosition(pieces)
         })
-    }, [])
+    }, [onlineUserData])
 
     socket.once('updateUsers', updatedUsers => {
         updateUsers(updatedUsers)

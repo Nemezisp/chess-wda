@@ -23,7 +23,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
     const [preferredTime, setPrefferedTime] = useState(null)
 
     useEffect(() => {
-        socket.on('register', (id) => {
+        socket.on('register', (id, username, preferredTime) => {
             setOnlineUserData({
                 username: username,
                 pieces: chosenPieces,
@@ -31,7 +31,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                 preferredTime: preferredTime
             })
         })
-    })
+    }, [])
 
     const chooseMix = (pieces) => {
         chosenPieces = []
@@ -96,6 +96,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                 let tempPiece = new piece(1)
                 return tempPiece.pieceName
             })
+            console.log(username, army, pieceNames, preferredTime)
             socket.emit('registration', username, army, pieceNames, preferredTime)
             setUserRegistered(true)
             return true
