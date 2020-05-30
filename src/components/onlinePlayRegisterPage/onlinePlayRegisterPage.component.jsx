@@ -24,7 +24,6 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
 
     useEffect(() => {
         socket.on('register', (id) => {
-            setUserRegistered(true)
             setOnlineUserData({
                 username: username,
                 pieces: chosenPieces,
@@ -98,6 +97,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                 return tempPiece.pieceName
             })
             socket.emit('registration', username, army, pieceNames, preferredTime)
+            setUserRegistered(true)
             return true
         } else {
             return false
@@ -113,7 +113,7 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
 
     return (
         <div>
-            {userRegistered ? <OnlinePlayLobby socket = {socket}/> 
+            {userRegistered ? <OnlinePlayLobby/> 
             : 
             <div className = 'register-container'>
                 <h1>Set your username</h1>
