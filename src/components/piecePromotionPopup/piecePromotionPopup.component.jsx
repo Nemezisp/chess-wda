@@ -1,16 +1,21 @@
 import React  from 'react';
 import './piecePromotionPopup.styles.css';
 import { Square } from './../square/square.component';
-import {connect} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {socket} from './../socket';
 
 import {updatePreviousMove} from '../../redux/actions';
+import { selectGameMode } from '../../redux/selectors';
 
+const PiecePromotionPopup = ({start, target, pieceList, promotion, player}) => {
+    const dispatch = useDispatch()
+    
+    const handleUpdatePreviousMove = (specialCase) => dispatch(updatePreviousMove(specialCase))
 
-const PiecePromotionPopup = ({start, target, pieceList, promotion, player, updatePreviousMove, gameMode}) => {
+    const gameMode = useSelector(selectGameMode)
 
     const onClick = (piece) => {
-        updatePreviousMove(piece.symbol);
+        handleUpdatePreviousMove(piece.symbol);
         promotion(start, target, piece)
         if (gameMode === 'online') {
             socket.emit('promotion', start, target, piece)
@@ -34,12 +39,4 @@ const PiecePromotionPopup = ({start, target, pieceList, promotion, player, updat
     ) 
 }
 
-const mapDispatchToProps = dispatch => ({
-    updatePreviousMove: (specialCase) => dispatch(updatePreviousMove(specialCase))
-})
-
-const mapStateToProps = state => ({
-    gameMode: state.gameMode
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PiecePromotionPopup)
+export default PiecePromotionPopup

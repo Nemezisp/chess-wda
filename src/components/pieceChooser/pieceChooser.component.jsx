@@ -14,14 +14,18 @@ import './pieceChooser.styles.css'
 
 import {setStartingPosition, setUniquePieces} from '../../redux/actions';
 
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 let player;
 let chosenPieces = []
 let whitePieceList = []
 let blackPieceList = []
 
-const PieceChooser = ({setUniquePieces, setStartingPosition}) => {
+const PieceChooser = () => {
+    const dispatch = useDispatch()
+
+    const handleSetStartingPositon = (pieces) => dispatch(setStartingPosition(pieces))
+    const handleSetUniquePieces = (pieceList) => dispatch(setUniquePieces(pieceList))
 
     const [mixed, setMixed] = useState(false)
     const [buttonWhiteClasses, setButtonWhiteClasses] = useState([null, null, null, null, null]) 
@@ -31,8 +35,8 @@ const PieceChooser = ({setUniquePieces, setStartingPosition}) => {
         player === 1 ? whitePieceList = chosenPieces : blackPieceList = chosenPieces
         if (whitePieceList.length > 0 && blackPieceList.length > 0) {
             let uniquePieceList = new Set(whitePieceList.concat(blackPieceList))
-            setUniquePieces(uniquePieceList)
-            setStartingPosition(getStartingPositionArray())
+            handleSetUniquePieces(uniquePieceList)
+            handleSetStartingPositon(getStartingPositionArray())
             whitePieceList = []
             blackPieceList = []
         }
@@ -127,9 +131,4 @@ const PieceChooser = ({setUniquePieces, setStartingPosition}) => {
     )
 }
 
-const mapDispatchToProps = dispatch => ({
-    setStartingPosition: pieces => dispatch(setStartingPosition(pieces)),
-    setUniquePieces: pieceList => dispatch(setUniquePieces(pieceList))
-})
-  
-export default connect(null, mapDispatchToProps)(PieceChooser);
+export default PieceChooser;

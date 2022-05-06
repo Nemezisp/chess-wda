@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './onlinePlayLobby.styles.css';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import availablePieces from './../pieces/availablePieces';
 import PlayPage from '../playPage/playPage.component';
 import {socket} from './../socket';
@@ -11,10 +11,19 @@ import King from './../pieces/king/king';
 import Pawn from './../pieces/pawn/pawn';
 
 import {setStartingPosition, setOnlinePlayerNumber, setUniquePieces} from './../../redux/actions';
+import { selectBoardReady, selectOnlineUserData } from '../../redux/selectors';
 
 let opponentUsername = null;
 
-const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOnlinePlayerNumber, setUniquePieces}) => {
+const OnlinePlayLobby = () => {
+    const dispatch = useDispatch()
+
+    const onlineUserData = useSelector(selectOnlineUserData)
+    const boardReady = useSelector(selectBoardReady)
+    
+    const handleSetStartingPosition = (pieces) => dispatch(setStartingPosition(pieces))
+    const handleSetOnlinePlayerNumber = (number) => dispatch(setOnlinePlayerNumber(number))
+    const handleSetUniquePieces = (pieces) => dispatch(setUniquePieces(pieces))
 
     const [users, updateUsers] = useState([])
 
@@ -29,14 +38,14 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
                     secondPlayerChosenPieces.push(piece)
                 }
             }
-            setOnlinePlayerNumber(playerNumber)
+            handleSetOnlinePlayerNumber(playerNumber)
             let whitePieceList = playerNumber === 1 ? onlineUserData.pieces : secondPlayerChosenPieces
             let blackPieceList = playerNumber === 2 ? onlineUserData.pieces : secondPlayerChosenPieces
             let uniquePieceList = new Set(whitePieceList.concat(blackPieceList))
-            setUniquePieces(uniquePieceList)
+            handleSetUniquePieces(uniquePieceList)
             let pieces = getStartingPositionArray(whitePieceList, blackPieceList)
             opponentUsername = secondPlayerUsername
-            setStartingPosition(pieces)
+            handleSetStartingPosition(pieces)
         })
     }, [onlineUserData])
 
@@ -122,16 +131,4 @@ const OnlinePlayLobby = ({onlineUserData, setStartingPosition, boardReady, setOn
         return null
     }
 }
-
-const mapStateToProps = state => ({
-    onlineUserData: state.onlineUserData,
-    boardReady: state.boardReady
-})
-
-const mapDispatchToProps = dispatch => ({
-    setStartingPosition: pieces => dispatch(setStartingPosition(pieces)),
-    setOnlinePlayerNumber: number => dispatch(setOnlinePlayerNumber(number)),
-    setUniquePieces: pieces => dispatch(setUniquePieces(pieces))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(OnlinePlayLobby)
+export default OnlinePlayLobby

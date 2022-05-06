@@ -7,16 +7,38 @@ import {Help} from '../help/help.component';
 import {Options} from '../options/options.component';
 import Notation from '../notation/notation.component';
 import OnlineButtonMenu from '../onlineButtonMenu/onlineButtonMenu.component';
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import {resetGame, toggleHelp, toggleNotation, acceptDrawOffer, declineDrawOffer, setGameResult, resetOnlineGame} from '../../redux/actions';
 import { socket } from '../socket';
+import { selectBoardReady, selectDrawOfferActive, selectGameMode, selectGameResult, selectHelp, selectNotation, selectOnlinePlayerNumber, selectOnlineUserData, selectPieces, selectPlayer, selectUniquePieceList } from '../../redux/selectors';
 
-const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceList, gameResult, toggleNotation, notation, gameMode, onlinePlayerNumber, 
-                        onlineUserData, opponentUsername, drawOfferActive, acceptDrawOffer, declineDrawOffer, setGameResult, pieces, resetOnlineGame}) => {
-
+const PlayPage = ({opponentUsername}) => {
+  
   const [playerTime, setPlayerTime] = useState(null)
   const [opponentTime, setOpponentTime] = useState(null)
+
+  const dispatch = useDispatch()
+
+  const handleResetGame = () => dispatch(resetGame())
+  const handleToggleHelp = () => dispatch(toggleHelp())
+  const handleAcceptDrawOffer = () => dispatch(acceptDrawOffer())
+  const handleToggleNotation = () => dispatch(toggleNotation())
+  const handleDeclineDrawOffer = () => dispatch(declineDrawOffer())
+  const handleSetGameResult = (result) => dispatch(setGameResult(result))
+  const handleResetOnlineGame = () => dispatch(resetOnlineGame())
+
+  const boardReady = useSelector(selectBoardReady)
+  const player = useSelector(selectPlayer)
+  const help = useSelector(selectHelp)
+  const uniquePieceList = useSelector(selectUniquePieceList)
+  const gameResult = useSelector(selectGameResult)
+  const gameMode = useSelector(selectGameMode)
+  const notation = useSelector(selectNotation)
+  const onlinePlayerNumber = useSelector(selectOnlinePlayerNumber)
+  const onlineUserData = useSelector(selectOnlineUserData)
+  const drawOfferActive = useSelector(selectDrawOfferActive)
+  const pieces = useSelector(selectPieces)
 
   useEffect(() => {
     socket.on('changeTime', (time, id) => {
@@ -31,18 +53,18 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
     socket.on('timeEnded', (id) => {
       if ((id === onlineUserData.id && onlinePlayerNumber === 1) || (id !== onlineUserData.id && onlinePlayerNumber === 2)) {
         if (!checkIfDrawAfterTimeEnded(2)) {
-          setGameResult('0-1')
+          handleSetGameResult('0-1')
         }
       } else if ((id === onlineUserData.id && onlinePlayerNumber === 2) || (id !== onlineUserData.id && onlinePlayerNumber === 1)) {
         if (!checkIfDrawAfterTimeEnded(1)) {
-          setGameResult('1-0')
+          handleSetGameResult('1-0')
         }
       }
     })
 
     socket.on('userLeftGame', (gameEnded) => { 
       if (!(gameEnded) && boardReady) {
-        onlinePlayerNumber === 1 ? setGameResult('1-0') : setGameResult('0-1')
+        onlinePlayerNumber === 1 ? handleSetGameResult('1-0') : handleSetGameResult('0-1')
       }
     })
   }, [])
@@ -63,19 +85,19 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
         return false
       }
     } 
-    setGameResult('1/2 : 1/2')
+    handleSetGameResult('1/2 : 1/2')
     return true
   }
 
   const acceptDraw = () => {
     socket.emit('drawOfferAccepted')
-    acceptDrawOffer()
+    handleAcceptDrawOffer()
   }
 
   const renderNotation = () => {
     return (
       <div className = 'notation-view'>
-        <Notation close = {toggleNotation}/> 
+        <Notation close = {handleToggleNotation}/> 
         {gameMode === 'online' && !gameResult ? <OnlineButtonMenu/> : null}
       </div>
     )
@@ -83,7 +105,7 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
 
   const leaveGame = () => {
     socket.emit('leaveGame');
-    resetOnlineGame()
+    handleResetOnlineGame()
   }
 
   const renderRightBoardSide = () => {
@@ -94,8 +116,8 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
           <span className = 'time'>{gameMode === 'online' ? opponentTime : null}</span>
         </div>
         {notation ? renderNotation()
-                  : help ? <Help pieceList = {uniquePieceList} player = {player} close = {toggleHelp}/> 
-                        : <Options gameMode = {gameMode} help = {toggleHelp} notation = {toggleNotation} reset = {gameMode === 'local' ? resetGame : leaveGame} player = {player}/>}
+                  : help ? <Help pieceList = {uniquePieceList} player = {player} close = {handleToggleHelp}/> 
+                        : <Options gameMode = {gameMode} help = {handleToggleHelp} notation = {handleToggleNotation} reset = {gameMode === 'local' ? handleResetGame : leaveGame} player = {player}/>}
         <div className = 'player-container'>  
           <span>{username}</span>
           <span className = 'time'>{gameMode === 'online' ? playerTime : null}</span>
@@ -118,7 +140,7 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
           {drawOfferActive ? <div className = 'draw-offered-menu'>
                               <span>DRAW OFFERED</span>
                               <button onClick = {acceptDraw}>Accept</button>
-                              <button onClick = {declineDrawOffer}>Decline</button>
+                              <button onClick = {handleDeclineDrawOffer}>Decline</button>
                             </div>
                           : null}
         </div>
@@ -142,28 +164,4 @@ const PlayPage = ({boardReady, player, help, resetGame, toggleHelp, uniquePieceL
   )
 }
 
-const mapStateToProps = state => ({
-  boardReady: state.boardReady,
-  player: state.player,
-  help: state.help,
-  uniquePieceList: state.uniquePieceList,
-  gameResult: state.gameResult,
-  notation: state.notation,
-  gameMode: state.gameMode,
-  onlinePlayerNumber: state.onlinePlayerNumber,
-  onlineUserData: state.onlineUserData,
-  drawOfferActive: state.drawOfferActive,
-  pieces: state.pieces
-})
-
-const mapDispatchToProps = dispatch => ({
-  resetGame: () => dispatch(resetGame()),
-  toggleHelp: () => dispatch(toggleHelp()),
-  toggleNotation: () => dispatch(toggleNotation()),
-  acceptDrawOffer: () => dispatch(acceptDrawOffer()),
-  declineDrawOffer: () => dispatch(declineDrawOffer()),
-  setGameResult: (result) => dispatch(setGameResult(result)),
-  resetOnlineGame: () => dispatch(resetOnlineGame())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PlayPage);
+export default PlayPage;

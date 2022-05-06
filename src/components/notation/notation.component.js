@@ -1,10 +1,23 @@
 import React, {useState, useEffect} from 'react';
-import {connect} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux'
+
 import {OptionButton} from '../optionButton/optionButton.component';
 import './notation.styles.css';
 import { setPosition, lockMoving, unlockMoving } from '../../redux/actions';
+import { selectPreviousMoves, selectPreviousPositions, selectGameResult, selectPieces, selectMovingLocked } from '../../redux/selectors';
 
-const Notation = ({previousMoves, previousPositions, gameResult, close, setPosition, lockMoving, unlockMoving, pieces, movingLocked}) => {
+const Notation = ({close}) => {
+
+    const dispatch = useDispatch();
+    const previousMoves = useSelector(selectPreviousMoves)
+    const previousPositions = useSelector(selectPreviousPositions)
+    const gameResult = useSelector(selectGameResult)
+    const pieces = useSelector(selectPieces)
+    const movingLocked = useSelector(selectMovingLocked)
+
+    const handleLockMoving = () => dispatch(lockMoving())
+    const handleUnlockMoving = () => dispatch(unlockMoving())
+    const handleSetPosition = (pieces) => dispatch(setPosition(pieces))
 
     const [startingIndex, setStartingIndex] = useState(0)
     useEffect(() => setStartingIndex(previousMoves.length > 20 ? Math.ceil((previousMoves.length)/2 - 10)*2 : 0), [previousMoves])
@@ -68,8 +81,8 @@ const Notation = ({previousMoves, previousPositions, gameResult, close, setPosit
     }
 
     const onMoveClick = (index) => {
-        setPosition([...previousPositions[index+1]])
-        index+1 === previousPositions.length-1 ? unlockMoving() : lockMoving()
+        handleSetPosition([...previousPositions[index+1]])
+        index+1 === previousPositions.length-1 ? handleUnlockMoving() : handleLockMoving()
     }
 
     const handleKeyDown = (event) => {
@@ -77,9 +90,9 @@ const Notation = ({previousMoves, previousPositions, gameResult, close, setPosit
 
         if (event.key === 'ArrowLeft') {
             if (currentPositionIndex > 0) {
-                setPosition([...previousPositions[currentPositionIndex-1]])
+                handleSetPosition([...previousPositions[currentPositionIndex-1]])
                 if (!movingLocked){
-                    lockMoving()
+                    handleLockMoving()
                 }
             } 
             if (Math.ceil(currentPositionIndex/2) === startingIndex && currentPositionIndex !== 0) {
@@ -89,13 +102,13 @@ const Notation = ({previousMoves, previousPositions, gameResult, close, setPosit
         
         if (event.key === 'ArrowRight') {
             if (currentPositionIndex < previousPositions.length-2) {
-                setPosition([...previousPositions[currentPositionIndex+1]])
+                handleSetPosition([...previousPositions[currentPositionIndex+1]])
                 if (!movingLocked){
-                    lockMoving()
+                    handleLockMoving()
                 }
             } else if (currentPositionIndex === previousPositions.length-2) {
-                setPosition([...previousPositions[currentPositionIndex+1]])
-                unlockMoving()
+                handleSetPosition([...previousPositions[currentPositionIndex+1]])
+                handleUnlockMoving()
             }
             if (Math.ceil(currentPositionIndex/2) === startingIndex+10){
                 setStartingIndex(startingIndex+2)
@@ -105,8 +118,8 @@ const Notation = ({previousMoves, previousPositions, gameResult, close, setPosit
 
     const returnToGame = () => {
         setStartingIndex(previousMoves.length > 20 ? Math.ceil((previousMoves.length)/2 - 10)*2 : 0)
-        setPosition(previousPositions[previousPositions.length-1])
-        unlockMoving()
+        handleSetPosition(previousPositions[previousPositions.length-1])
+        handleUnlockMoving()
     }
 
     let currentMovesToDisplay = new Array(20).fill(0)
@@ -164,20 +177,4 @@ const arraysEqual = (a, b) => {
     return true;
 }
 
-const mapStateToProps = state => ({
-    previousMoves: state.previousMoves,
-    previousPositions: state.previousPositions,
-    gameResult: state.gameResult,
-    pieces: state.pieces,
-    movingLocked: state.movingLocked
-})
-
-
-const mapDispatchToProps = dispatch => ({
-    setPosition: pieces => dispatch(setPosition(pieces)),
-    lockMoving: () => dispatch(lockMoving()),
-    unlockMoving: () => dispatch(unlockMoving())
-})
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(Notation);
+export default Notation;

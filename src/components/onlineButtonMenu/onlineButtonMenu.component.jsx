@@ -1,21 +1,29 @@
 import React from 'react';
 import {OptionButton} from '../optionButton/optionButton.component'
 import {socket} from './../socket';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {setGameResult, acceptDrawOffer} from '../../redux/actions'
+import { selectOnlinePlayerNumber, selectDrawOfferActive } from '../../redux/selectors';
 
-const OnlineButtonMenu = ({onlinePlayerNumber, setGameResult, drawOfferActive, acceptDrawOffer}) => {
+const OnlineButtonMenu = () => {
+    const dispatch = useDispatch();
+
+    const handleSetGameResult = (result) => dispatch(setGameResult(result))
+    const handleAcceptDrawOffer = () => dispatch(acceptDrawOffer())
+
+    const onlinePlayerNumber = useSelector(selectOnlinePlayerNumber)
+    const drawOfferActive = useSelector(selectDrawOfferActive)
 
     const resign = () => {
         let gameResult = onlinePlayerNumber === 1 ? '0-1' : '1-0'
         socket.emit('resign', gameResult)
-        setGameResult(gameResult)
+        handleSetGameResult(gameResult)
     }
 
     const offerDraw = () => {
         if (drawOfferActive){
             socket.emit('drawOfferAccepted')
-            acceptDrawOffer()
+            handleAcceptDrawOffer()
         } else {
             socket.emit('drawOffer')
         }
@@ -29,14 +37,4 @@ const OnlineButtonMenu = ({onlinePlayerNumber, setGameResult, drawOfferActive, a
     )
 }
 
-const mapStateToProps = state => ({
-    onlinePlayerNumber: state.onlinePlayerNumber,
-    drawOfferActive: state.drawOfferActive
-})
-
-const mapDispatchToProps = dispatch => ({
-    setGameResult: (result) => dispatch(setGameResult(result)),
-    acceptDrawOffer: () => dispatch(acceptDrawOffer())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(OnlineButtonMenu)
+export default OnlineButtonMenu

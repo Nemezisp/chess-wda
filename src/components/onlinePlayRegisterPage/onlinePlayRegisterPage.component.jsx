@@ -5,7 +5,7 @@ import PieceChooseMenu from './../pieceChooseMenu/pieceChooseMenu.component';
 import {MixedArmyPopup} from './../mixedArmyPopup/mixedArmyPopup.component';
 import OnlinePlayLobby from './../onlinePlayLobby/onlinePlayLobby.component';
 import availablePieces from './../pieces/availablePieces';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {socket} from './../socket';
 import ChooseButton from '../chooseButton/chooseButton.component';
 
@@ -14,7 +14,7 @@ import {setOnlineUserData} from './../../redux/actions';
 let chosenPieces = []
 let army;
 
-const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
+const OnlinePlayRegisterPage = () => {
     const [userRegistered, setUserRegistered] = useState(false)
     const [mixed, setMixed] = useState(false)
     const [buttonClasses, setButtonClasses] = useState([null, null, null, null, null]) 
@@ -22,9 +22,12 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
     const [username, setUsername] = useState('')
     const [preferredTime, setPrefferedTime] = useState(null)
 
+    const dispatch = useDispatch()
+    const handleSetOnlineUserData = (userData) => dispatch(setOnlineUserData(userData))
+
     useEffect(() => {
         socket.on('register', (id, username, preferredTime) => {
-            setOnlineUserData({
+            handleSetOnlineUserData({
                 username: username,
                 pieces: chosenPieces,
                 id: id,
@@ -96,7 +99,6 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
                 let tempPiece = new piece(1)
                 return tempPiece.pieceName
             })
-            console.log(username, army, pieceNames, preferredTime)
             socket.emit('registration', username, army, pieceNames, preferredTime)
             setUserRegistered(true)
             return true
@@ -139,8 +141,4 @@ const OnlinePlayRegisterPage = ({setOnlineUserData}) => {
     )
 }
 
-const mapDispatchToProps = dispatch => ({
-    setOnlineUserData: userData => dispatch(setOnlineUserData(userData)),
-})
-
-export default connect(null, mapDispatchToProps)(OnlinePlayRegisterPage);
+export default OnlinePlayRegisterPage;
