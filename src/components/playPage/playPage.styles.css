@@ -10,6 +10,7 @@
 .left-board-side {
   display: grid;
   height: max(45.6vw, 320px);
+  width: 135px;
   margin-right: 10px;
   text-align: end;
   font-size: 18px;
@@ -141,6 +142,7 @@
     text-align: center;
     margin-bottom: 5px;
     grid-template-rows: unset;
+    width: unset;
   }
 
   .right-board-side {
