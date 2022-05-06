@@ -20,7 +20,13 @@ const Notation = ({close}) => {
     const handleSetPosition = (pieces) => dispatch(setPosition(pieces))
 
     const [startingIndex, setStartingIndex] = useState(0)
+    const [currentPositionIndex, setCurrentPositionIndex] = useState(0)
+
     useEffect(() => setStartingIndex(previousMoves.length > 20 ? Math.ceil((previousMoves.length)/2 - 10)*2 : 0), [previousMoves])
+
+    useEffect(() => {
+        pieces && setCurrentPositionIndex(previousPositions.findIndex(piecesAtIndex => arraysEqual(piecesAtIndex, pieces)))
+    }, [pieces, previousPositions])
 
     const numberToSquare = (number) => {
         let columnTranslator = [null, 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
@@ -81,6 +87,7 @@ const Notation = ({close}) => {
     }
 
     const onMoveClick = (index) => {
+        console.log('click', index)
         handleSetPosition([...previousPositions[index+1]])
         index+1 === previousPositions.length-1 ? handleUnlockMoving() : handleLockMoving()
     }
@@ -129,22 +136,20 @@ const Notation = ({close}) => {
         <div className = 'notation-container' onKeyDown = {handleKeyDown} tabIndex = '0'>
             <table className = 'moves'>
                 <tbody>
-
                     {currentMovesToDisplay.slice(0, 20).map((move, moveNumber) => {
                         let moveIndex = moveNumber+startingIndex
-                        let currentPositionIndex = previousPositions.findIndex(piecesAtIndex => arraysEqual(piecesAtIndex, pieces))
                         return(isEven(moveIndex) ? <tr key = {moveIndex}>
                                                         <td className = 'move-number'>{Math.ceil(moveNumber/2)+1+startingIndex/2 + '.'}</td>
                                                         {move ? <td className = 'move-notation'>
                                                                     <div className = {'move-text ' + (moveIndex === currentPositionIndex-1 ? 'current-move' : null)} 
-                                                                         onClick = {onMoveClick.bind(this, moveIndex)}>
+                                                                         onClick = {() => onMoveClick(moveIndex)}>
                                                                         {moveNotation(move, moveIndex)}
                                                                     </div>
                                                                 </td> 
                                                               : <td className = 'move-notation'></td>}
-                                                        {move ? (previousMoves[moveIndex+1] ? <td className = 'move-notation' onClick = {onMoveClick.bind(this, moveIndex+1)}>
+                                                        {move ? (previousMoves[moveIndex+1] ? <td className = 'move-notation'>
                                                                                                 <div className = {'move-text ' + (moveIndex+1 === currentPositionIndex-1 ? 'current-move' : null)} 
-                                                                                                     onClick = {onMoveClick.bind(this, moveIndex)}>
+                                                                                                     onClick = {() => onMoveClick(moveIndex+1)}>
                                                                                                     {moveNotation(previousMoves[moveIndex+1], moveIndex+1)}
                                                                                                 </div>
                                                                                             </td> 

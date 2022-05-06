@@ -41,25 +41,28 @@ const reducer = (state = INITIAL_STATE, action) => {
                 chosenPieceSquare: null
             }
         case ActionTypes.MAKE_MOVE:
-            var tempPiecesMove = makeMove(state.pieces, action.payload.startSquare, action.payload.endSquare)
+            let tempPiecesBeforeMove = [...state.pieces]
+            let tempPiecesAfterMove = makeMove(tempPiecesBeforeMove, action.payload.startSquare, action.payload.endSquare)
             return {
                 ...state,
-                pieces: tempPiecesMove,
-                previousPositions: [...state.previousPositions, [...tempPiecesMove]]
+                pieces: tempPiecesAfterMove,
+                previousPositions: [...state.previousPositions, [...tempPiecesAfterMove]]
             }
         case ActionTypes.EN_PASSANT:
-            var tempPiecesPassant = enPassant(state.pieces, action.payload.startSquare, action.payload.endSquare, action.payload.pawnToRemoveSquare)
+            let tempPiecesBeforePassant = [...state.pieces]
+            let tempPiecesAfterPassant = enPassant(tempPiecesBeforePassant, action.payload.startSquare, action.payload.endSquare, action.payload.pawnToRemoveSquare)
             return {
                 ...state,
-                pieces: tempPiecesPassant,
-                previousPositions: [...state.previousPositions, [...tempPiecesPassant]]
+                pieces: tempPiecesAfterPassant,
+                previousPositions: [...state.previousPositions, [...tempPiecesAfterPassant]]
             }
         case ActionTypes.CASTLING:
-            var tempPiecesCastling = castling(state.pieces, action.payload.rookStartSquare, action.payload.rookEndSquare, action.payload.kingStartSquare, action.payload.kingEndSquare)
+            let tempPiecesBeforeCastling = [...state.pieces]
+            let tempPiecesAfterCastling = castling(tempPiecesBeforeCastling, action.payload.rookStartSquare, action.payload.rookEndSquare, action.payload.kingStartSquare, action.payload.kingEndSquare)
             return {
                 ...state,
-                pieces: tempPiecesCastling,
-                previousPositions: [...state.previousPositions, [...tempPiecesCastling]]
+                pieces: tempPiecesAfterCastling,
+                previousPositions: [...state.previousPositions, [...tempPiecesAfterCastling]]
             }
         case ActionTypes.START_PIECE_PROMOTION:
             return {
@@ -67,12 +70,13 @@ const reducer = (state = INITIAL_STATE, action) => {
                 piecePromotionActive: true
             }
         case ActionTypes.END_PIECE_PROMOTION:
-            var tempPiecesPromotion = piecePromotion(state.pieces, action.payload.startSquare, action.payload.endSquare, action.payload.pieceToPromoteTo)
+            let tempPiecesBeforePromotion = [...state.pieces]
+            let tempPiecesAfterPromotion = piecePromotion(tempPiecesBeforePromotion, action.payload.startSquare, action.payload.endSquare, action.payload.pieceToPromoteTo)
             return {
                 ...state,
                 piecePromotionActive: false,
-                pieces: tempPiecesPromotion,
-                previousPositions: [...state.previousPositions, [...tempPiecesPromotion]]
+                pieces: tempPiecesAfterPromotion,
+                previousPositions: [...state.previousPositions, [...tempPiecesAfterPromotion]]
             }
         case ActionTypes.ADD_MOVE_TO_PREVIOUS_MOVES:
             return {
@@ -201,6 +205,7 @@ const reducer = (state = INITIAL_STATE, action) => {
                 drawOfferActive: false
             }
         default:
+            console.log('default')
             return state;
     }
 }
