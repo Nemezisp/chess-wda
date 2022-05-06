@@ -41,11 +41,13 @@ export const Help = ({pieceList, close}) => {
                 {pieceNumber > 0 ? <img src = {require('./../../assets/arrow-icon.png')} className = 'arrow-reversed' alt = 'arrow' onClick = {() => setPieceNumber(pieceNumber-1)}/> : null}
                 {pieceNumber < [...pieceList].length-1 ? <img src = {require('./../../assets/arrow-icon.png')} alt = 'arrow' className = 'arrow' onClick = {() => setPieceNumber(pieceNumber+1)}/> : null}
             </div>
-            <span className = 'piece-name'>{piece.pieceName}</span>
+            <span className = 'help-piece-name'>{piece.pieceName}</span>
             <Board pieces = {pieces} 
                    possibleMoves = {piece.maybePossibleMoves(square, pieces)}
-                   squareSize = {'max(3vw, 18px)'}/>
-            <OptionButton onClick = {close} buttonText = 'Options'/>
+                   squareSize = {'max(4vw, 30px)'}/>
+            <div className='help-option-button-container'>
+                <OptionButton onClick = {close} buttonText = 'Go back'/>
+            </div>
         </div>
     )        
 }

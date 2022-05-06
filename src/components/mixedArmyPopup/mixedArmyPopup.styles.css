@@ -1,11 +1,19 @@
+.mixed-army-popup {
+    padding: 10px 10px;
+}
+
 .choose-set {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
 }
 
 .single-piece {
     display: grid;
     justify-items: center;
+    border: 1px solid black;
+    background-color: rgb(219, 219, 219);
+    border-radius: 20px;
 }
 
 .single-piece:hover {

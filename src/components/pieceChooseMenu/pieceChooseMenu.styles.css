@@ -2,9 +2,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 1vw;
+    justify-items: center;
+    max-width: 1050px;
 }
 
 .mixed {
   grid-column-start: span 4;
   justify-self: center;
+}
+
+@media only screen and (max-width: 1024px) {
+	.chooser{
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px;
+  }
+  .mixed {
+    grid-column-start: span 2;
+  }
 }

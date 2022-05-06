@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import Popup from "reactjs-popup";
 import Game from '../game/game.component';
 import OnlineGame from '../onlineGame/onlineGame.component';
 import './playPage.styles.css';
@@ -98,7 +99,12 @@ const PlayPage = ({opponentUsername}) => {
     return (
       <div className = 'notation-view'>
         <Notation close = {handleToggleNotation}/> 
-        {gameMode === 'online' && !gameResult ? <OnlineButtonMenu/> : null}
+        {drawOfferActive ? <div className = 'draw-offered-menu show-on-mobile-only'>
+                              <span>DRAW OFFERED</span>
+                              <button onClick = {acceptDraw}>Accept</button>
+                              <button onClick = {handleDeclineDrawOffer}>Decline</button>
+                            </div>
+                          : gameMode === "online" && !gameResult && <div className='show-on-mobile-only'><OnlineButtonMenu/></div>}
       </div>
     )
   }
@@ -115,9 +121,11 @@ const PlayPage = ({opponentUsername}) => {
           <span>{opponentUsername}</span>
           <span className = 'time'>{gameMode === 'online' ? opponentTime : null}</span>
         </div>
+        <Popup className='help-popup' open={help} closeOnDocumentClick = {false} closeOnEscape = {false}>
+            <Help pieceList = {uniquePieceList} player = {player} close = {handleToggleHelp}/> 
+        </Popup> 
         {notation ? renderNotation()
-                  : help ? <Help pieceList = {uniquePieceList} player = {player} close = {handleToggleHelp}/> 
-                        : <Options gameMode = {gameMode} help = {handleToggleHelp} notation = {handleToggleNotation} reset = {gameMode === 'local' ? handleResetGame : leaveGame} player = {player}/>}
+                  : <Options gameMode = {gameMode} help = {handleToggleHelp} notation = {handleToggleNotation} reset = {gameMode === 'local' ? handleResetGame : leaveGame} player = {player}/>}
         <div className = 'player-container'>  
           <span>{username}</span>
           <span className = 'time'>{gameMode === 'online' ? playerTime : null}</span>
@@ -130,22 +138,22 @@ const PlayPage = ({opponentUsername}) => {
     return (
       <div className = 'left-board-side-small-screen'>
         <div className = 'player-container-small-screen'>  
-          <span>{username}</span>
+          <span>{username && username.length > 6 ? username.slice(0,6) + '...' : username}</span>
           <span className = 'time'>{gameMode === 'online' ? playerTime : null}</span>
         </div>
         <div className = 'left-board-side'>
           {gameResult ? <span className = 'game-ended'>GAME ENDED</span>
                       : player === 2 ? <span className = {blackToMoveClass}>BLACK TO MOVE</span> 
                                     : <span className = {whiteToMoveClass}>WHITE TO MOVE</span>}
-          {drawOfferActive ? <div className = 'draw-offered-menu'>
+          {drawOfferActive ? <div className = 'draw-offered-menu hide-on-mobile'>
                               <span>DRAW OFFERED</span>
                               <button onClick = {acceptDraw}>Accept</button>
                               <button onClick = {handleDeclineDrawOffer}>Decline</button>
                             </div>
-                          : null}
+                          : gameMode === "online" && !gameResult && <div className='hide-on-mobile grid-row-2'><OnlineButtonMenu/></div>}
         </div>
         <div className ='opponent-container-small-screen'>
-          <span>{opponentUsername}</span>
+          <span>{opponentUsername && opponentUsername.length > 6 ? opponentUsername.slice(0,6) + '...' : opponentUsername}</span>
           <span className = 'time'>{gameMode === 'online' ? opponentTime : null}</span>
         </div>
       </div>

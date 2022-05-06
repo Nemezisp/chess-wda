@@ -29,9 +29,9 @@ const PiecePromotionPopup = ({start, target, pieceList, promotion, player}) => {
                 {[...pieceList].map((piece, i) => {
                     piece = new piece(player)
                     return (
-                        <div className = 'single-piece' key = {i}>
+                        <div className = 'single-piece scale-up' key = {i}>
                             <p className = 'piece-name'>{piece.pieceName}</p>
-                            <Square click = {onClick} index = {i} key = {i} piece = {piece} size = "max(10vw, 60px)"/>
+                            <Square click = {onClick} index = {i} key = {i} piece = {piece} size = 'max(10vw, 55px)'/>
                         </div>)
                 })}
             </div>

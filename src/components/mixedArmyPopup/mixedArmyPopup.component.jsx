@@ -34,7 +34,7 @@ export const MixedArmyPopup = ({player, whenChosen, pieceList}) => {
                         return (
                             <div className = 'single-piece scale-up' key = {i}>
                                 <p className = 'piece-name'>{piece.pieceName}</p>
-                                <Square click = {addChosenPiece} key = {i} piece = {piece} size = '10vw'/>
+                                <Square click = {addChosenPiece} key = {i} piece = {piece} size = 'max(10vw, 60px)'/>
                             </div>)
                     } return null;
                 })}

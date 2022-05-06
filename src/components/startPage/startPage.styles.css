@@ -1,11 +1,13 @@
 .start-page {
     height: 100vh;
-    color: white;
     display: flex;
+    flex-direction: column;
     justify-content: center;
-    align-items: center;
 }
 
-.local-play-button {
-    padding-right: 10px;
+.start-page-buttons {
+    width: 100%;
+    display: flex;
+    gap: 30px;
+    justify-content: center;
 }

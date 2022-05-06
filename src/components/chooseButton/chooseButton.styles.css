@@ -1,11 +1,11 @@
 .glow-on-hover {
-    font-size: max(2vw, 2vh);
-    width: 24vw;
+    font-size: 20px;
+    width: 250px;
     height: 10vh;
     border: none;
     outline: none;
     color: #fff;
-    background: #111;
+    background: #222;
     cursor: pointer;
     position: relative;
     z-index: 0;
@@ -47,7 +47,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: #111;
+    background: #222;
     left: 0;
     top: 0;
     border-radius: 10px;
@@ -63,10 +63,17 @@
     background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
 }
 
-@media only screen and (max-width: 600px) {
-	.glow-on-hover{
-        font-size: 10px;
-        height: 7vh;
-    }
+@media only screen and (max-width: 768px) {
+	.glow-on-hover {
+    font-size: 18px;
+    width: 220px;
+  }
 }
-  
+
+@media only screen and (max-width: 480px) {
+	.glow-on-hover {
+    font-size: 16px;
+    width: 150px;
+    height: 70px;
+  }
+}

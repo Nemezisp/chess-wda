@@ -3,7 +3,6 @@ import ChooseButton from './../chooseButton/chooseButton.component';
 import './pieceChooseMenu.styles.css';
 
 const PieceChooseMenu = ({classList, player, choose, onMixed}) => {
-
     return (
         <div className = 'chooser'>
             <ChooseButton classes = {classList[0]} onClick = {() => choose(1, player, 0)} textOnButton = 'FIDE army (classic chess)'/>

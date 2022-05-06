@@ -3,39 +3,58 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 3vw;
     color: white;
     text-align: center;
+    background-color: rgb(50, 50, 50);
+    padding: 20px 30px;
+}
+
+.help-piece-name {
+    margin-bottom: 10px;
+    font-size: 25px;
+}
+
+.help-popup-content {
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: min-content;
+}
+
+.help-popup-overlay {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.help-option-button-container {
+    width: 50%;
 }
 
 .arrows {
-    width: 100%;
+    width: max(32vw, 240px);
     display: flex;
 }
 
 .arrow {
-    width: 5vw;
+    width: 3vw;
     margin-left: auto;
 }
 
 .arrow-reversed {
-    width: 5vw;
+    width: 3vw;
     margin-right: auto;
     transform: scaleX(-1);
 }
-
 
 .arrow {
     color: white;
 }
 
-@media only screen and (max-width: 600px) {
-	.help-container{
-        margin-top: 10px;
-        margin-left: unset;
-    }
-
+@media only screen and (max-width: 768px) {
     .arrow, .arrow-reversed {
         width: 25px;
+    }
+
+    .help-piece-name {
+        font-size: 20px;
     }
 }

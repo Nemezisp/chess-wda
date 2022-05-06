@@ -124,7 +124,7 @@ const PieceChooser = () => {
                                                                                                             player = 2}} />
             </div>
         
-            <Popup open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
+            <Popup className='mixed-popup' open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
                 <MixedArmyPopup whenChosen = {chooseMix} player = {player} pieceList = {availablePieces}/> 
             </Popup>
         </div>

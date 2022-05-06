@@ -1,19 +1,22 @@
 .chooser-container{
-    width: 100vw;
     height: 100vh;
     display: grid;
     align-content: center;
+    justify-items: center;
+}
+
+.mixed-popup-content {
+    width: max(320px, 50%)
 }
 
 h1 {
-    font-size: max(3vw, 3vh);
+    font-size: 40px;
     text-align: center;
     color: honeydew;
 }
   
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   h1 {
-    font-size: 15px;
+    font-size: 30px;
   }
 }

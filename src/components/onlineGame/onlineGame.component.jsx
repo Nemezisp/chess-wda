@@ -322,11 +322,10 @@ class OnlineGame extends React.Component {
                 <Board pieces = {pieces} 
                        possibleMoves = {possibleMoves}
                        squareClick = {this.handleClick}
-                       squareSize = 'max(6.25vw, 40px)'
+                       squareSize = 'max(5.7vw, 40px)'
                        reversed = {onlinePlayerNumber === 1 ? false : true}/>
     
-                <Popup open = {piecePromotionActive} closeOnDocumentClick = {false} closeOnEscape = {false}
-                       contentStyle={{ width: "unset" }}>
+                <Popup className='promotion-popup' open = {piecePromotionActive} closeOnDocumentClick = {false} closeOnEscape = {false}>
                     <PiecePromotionPopup pieceList = {uniquePieceList}
                                          promotion = {piecePromotion}
                                          start = {lastMove ? lastMove[2] : null}  

@@ -6,11 +6,18 @@
     background-color: black;
 }
 
+.online-chooser-container {
+    display: grid;
+    align-content: center;
+    justify-items: center;
+}
+
 .register-container {
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .username-input {
@@ -34,5 +41,24 @@
 .time-chooser {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 10px;
     justify-items: center;
+    justify-self: center;
+    max-width: 1050px;
+}
+
+.online-register-submit-container {
+    margin-top: 20px;
+    width: 350px;
+}
+
+@media only screen and (max-width: 768px) {
+    .time-chooser {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .time-chooser > button:nth-child(3n) {
+        grid-column-start: span 2;
+        justify-self: center;
+    }
 }

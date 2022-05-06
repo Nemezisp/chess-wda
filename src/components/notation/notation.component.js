@@ -135,10 +135,10 @@ const Notation = ({close}) => {
     return (
         <div className = 'notation-container' onKeyDown = {handleKeyDown} tabIndex = '0'>
             <table className = 'moves'>
-                <tbody>
+                <tbody className='moves-table-body'>
                     {currentMovesToDisplay.slice(0, 20).map((move, moveNumber) => {
                         let moveIndex = moveNumber+startingIndex
-                        return(isEven(moveIndex) ? <tr key = {moveIndex}>
+                        return(isEven(moveIndex) ? <tr className='move-table-row' key = {moveIndex}>
                                                         <td className = 'move-number'>{Math.ceil(moveNumber/2)+1+startingIndex/2 + '.'}</td>
                                                         {move ? <td className = 'move-notation'>
                                                                     <div className = {'move-text ' + (moveIndex === currentPositionIndex-1 ? 'current-move' : null)} 

@@ -4,30 +4,45 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     font-size: min(20px, 2vw);
     outline: none;
 }
 
 .moves {
     text-align: center;
-    border: 2px solid #2b2b2b;
     border-radius: 10px;
     background-color: #202020;
-    box-shadow: 2px 2px #2b2b2b;
-	background-image: url("./../../assets/wood-pattern.png");
+    border-spacing: 0;
+}
+
+.moves-table-body > tr:nth-child(1) > .move-number,
+.moves-table-body > tr:nth-child(1) > .move-notation {
     padding-top: 10px;
+}
+
+.moves-table-body > tr:nth-child(10) > .move-number,
+.moves-table-body > tr:nth-child(10) > .move-notation {
     padding-bottom: 10px;
-    padding-right: min(15px, 2vw);
+}
+
+.move-table-row > td:nth-child(2n) {
+    background-color: #363636;
+    border-right: 2px solid black;
+    border-left: 2px solid black;
 }
 
 .move-number {
-    width: 3vw;
-    text-align: end;
-    padding-right: min(15px, 2vw);
+    width: 80px;
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .move-notation {
-    width: 6vw;
+    width: 100px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 .move-text {
@@ -49,18 +64,35 @@
     color: #00ff11;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 1024px) {
+    .move-notation {
+        width: 80px;
+    }
+
+    .move-number {
+        width: 50px;
+    }
+
+    .moves, .game-result {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
 	.notation-container{
         margin-top: 10px;
         margin-left: unset;
     }
 
     .move-notation {
-        width: 50px;
+        width: 70px;
+    }
+
+    .move-number {
+        width: 40px;
     }
 
     .moves, .game-result {
-        font-size: 13px;
-        box-shadow: unset;
+        font-size: 14px;
     }
 }

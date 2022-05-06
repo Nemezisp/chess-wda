@@ -12,8 +12,11 @@ const StartPage = () => {
 
     return (
         <div className = 'start-page'>
-            <span className = 'local-play-button'><ChooseButton onClick = {() => handleSetLocalGame()} textOnButton = 'Local play'/></span>
-            <span className = 'online-play-button'><ChooseButton onClick = {() => handleSetOnlineGame()} textOnButton = 'Online play'/></span>
+            <h1> Choose game mode: </h1>
+            <div className='start-page-buttons'>
+                <span className = 'local-play-button'><ChooseButton onClick = {() => handleSetLocalGame()} textOnButton = 'Local play'/></span>
+                <span className = 'online-play-button'><ChooseButton onClick = {() => handleSetOnlineGame()} textOnButton = 'Online play'/></span>
+            </div>
         </div>
     )
 }

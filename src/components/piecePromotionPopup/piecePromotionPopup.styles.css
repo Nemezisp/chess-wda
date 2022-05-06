@@ -1,3 +1,7 @@
+.piece-promotion-popup {
+    padding: 0px 10px;
+}
+
 .main-text {
     text-align: center;
     font-size: min(30px, 3vw);
@@ -7,6 +11,7 @@
 .promotion-pieces-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 10px;
 }
 
 .piece-name {
