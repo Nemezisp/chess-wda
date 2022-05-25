@@ -14,7 +14,6 @@ const App = ({gameMode, currentUser}) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(async (user) => {
-      console.log('here', user)
       if(user) {
         await createUserDocumentFromAuth(user)
         const userData = await getUserFromDatabase(user.uid)
