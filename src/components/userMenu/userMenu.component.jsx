@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentUser } from "../../redux/selectors";
 import { setCurrentUser } from "../../redux/actions";
 import Popup from "reactjs-popup";
+import { socket } from "../socket";
 
 const UserMenu = () => {
     const dispatch = useDispatch()
@@ -27,17 +28,17 @@ const UserMenu = () => {
     }
 
     const handleChangeUsername = async () => {
-        resetUsernameField()
         setUsernameChangePopupOpen(false)
         const newUserData = await changeUsername(user.uid, usernameInput)
         dispatch(setCurrentUser(newUserData))
+        socket.emit("updateUsername", usernameInput)
+        resetUsernameField()
     }
 
     return (
         <div className='user-menu-container'>
             <div className="user-menu-inner-container">
-                {<div className="logged-as-container">Logged in as {user.displayName.length > 15 ? user.displayName.slice(0, 15) + "..." : user.displayName}</div>
-}
+                {user.displayName && <div className="logged-as-container">Logged in as {user.displayName.length > 15 ? user.displayName.slice(0, 15) + "..." : user.displayName}</div>}
                 <button className="user-menu-button" onClick={() => setUsernameChangePopupOpen(true)}>Change Username</button>
                 <button className="user-menu-button" onClick={() => handleSignOut()}>Sign Out</button>
             </div>

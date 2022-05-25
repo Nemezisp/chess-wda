@@ -59,7 +59,6 @@ export const getUserFromDatabase = async(id) => {
     try {
         const userSnapshot = await getDoc(userDocRef)
         const userData = userSnapshot.data()
-        console.log(userData)
         return {
             displayName: userData.displayName,
             uid: id
@@ -90,7 +89,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     const userDocRef = doc(db, 'users', userAuth.uid)
     const userSnapshot = await getDoc(userDocRef)
 
-    if(!userSnapshot.exists()) {
+    if(!userSnapshot.exists() && (userAuth.displayName || additionalInformation.displayName)) {
         const { displayName, email } = userAuth;
         const createdAt = new Date()
         try {
@@ -100,9 +99,13 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
                 createdAt,
                 ...additionalInformation
             });
+            return await getUserFromDatabase(userAuth.uid);
         } catch (err) {
             console.log('error creating the user', err.message)
         }
+    } else if (userSnapshot.exists()) {
+        return await getUserFromDatabase(userAuth.uid);
+    } else {
+        return null;
     }
-    return userDocRef;
 }

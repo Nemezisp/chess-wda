@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import availablePieces from './../pieces/availablePieces';
 import PlayPage from '../playPage/playPage.component';
 import {socket} from './../socket';
+import UserMenu from '../userMenu/userMenu.component';
 
 import Forbidden from './../pieces/forbidden/forbidden';
 import Empty from './../pieces/empty/empty';
@@ -96,31 +97,34 @@ const OnlinePlayLobby = () => {
     if (users.length) {
         if (!boardReady) {
             return(
-                <table className = 'current-users-table'>
-                    <thead>
-                        <tr>
-                            <th>Username</th>
-                            <th>Army</th>
-                            <th>Preffered time</th>
-                            <th>In play</th>
-                            <th>Play with user</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => {
-                            return (
-                                <tr key = {user.id} className = 'user-in-lobby'>
-                                    <td>{user.username} </td>
-                                    <td>{user.army}</td>
-                                    <td>{user.prefferedTime/60000 + ' min'}</td>
-                                    <td>{user.inPlay ? 'yes' : 'no' }</td>
-                                    {onlineUserData.id === user.id ? <td>That's you</td> 
-                                                                   :  user.inPlay ? <td>In play</td> : <td><button onClick = {() => initiateStartGame(user.id)}>Play</button></td>}
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                <div>
+                    <UserMenu/>
+                    <table className = 'current-users-table'>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Army</th>
+                                <th>Preffered time</th>
+                                <th>In play</th>
+                                <th>Play with user</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map((user) => {
+                                return (
+                                    <tr key = {user.id} className = 'user-in-lobby'>
+                                        <td>{user.username} </td>
+                                        <td>{user.army}</td>
+                                        <td>{user.prefferedTime/60000 + ' min'}</td>
+                                        <td>{user.inPlay ? 'yes' : 'no' }</td>
+                                        {onlineUserData.id === user.id ? <td>That's you</td> 
+                                                                    :  user.inPlay ? <td>In play</td> : <td><button onClick = {() => initiateStartGame(user.id)}>Play</button></td>}
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
             )
         } else {
             return <PlayPage opponentUsername = {opponentUsername}/>

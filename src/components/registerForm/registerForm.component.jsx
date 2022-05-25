@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase.utils';
+import { setCurrentUser } from '../../redux/actions';
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth, getUserFromDatabase } from '../../utils/firebase.utils';
+import { useDispatch } from 'react-redux';
 
 import "./registerForm.styles.css";
 
@@ -11,6 +13,7 @@ const defaultFormFields = {
 }
 
 const RegisterForm = () => {
+    const dispatch = useDispatch()
 
     const [formFields, setFormFields] = useState(defaultFormFields)
     const [isRegistering, setIsRegistering] = useState(false)
@@ -30,7 +33,8 @@ const RegisterForm = () => {
         } 
         try {
             const {user} = await createAuthUserWithEmailAndPassword(email, password)
-            await createUserDocumentFromAuth(user, {displayName})
+            const userData = await createUserDocumentFromAuth(user, {displayName})
+            dispatch(setCurrentUser(userData))
             resetFormFields()
         } catch (err) {
             if (err.code === "auth/email-already-in-use") {

@@ -94,7 +94,6 @@ const OnlinePlayRegisterPage = () => {
     }
 
     const isUserRegistered = () => {
-        console.log(chosenPieces.length)
         if (chosenPieces.length && preferredTime) {
             let pieceNames = chosenPieces.map(piece => {
                 let tempPiece = new piece(1)
@@ -116,27 +115,29 @@ const OnlinePlayRegisterPage = () => {
     }
 
     return (
-        <div className='online-container'>
-            <UserMenu/>
+        <div>
             {userRegistered ? <OnlinePlayLobby/> 
             : 
-            <div className = 'register-container'>
-                <h1 className='online-register-header'>Choose your army</h1>
-                <div className='online-chooser-container'>
-                    <PieceChooseMenu classList = {buttonClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)}} />
+            <div className='online-container'>
+                <UserMenu/>
+                <div className = 'register-container'>
+                    <h1 className='online-register-header'>Choose your army</h1>
+                    <div className='online-chooser-container'>
+                        <PieceChooseMenu classList = {buttonClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)}} />
+                    </div>
+                    <h1 className='online-register-header'>Choose preferred time</h1>
+                    <div className = 'time-chooser'>
+                        <ChooseButton onClick = {() => chooseTime(180000, 0)} textOnButton = '3 min' classes = {timeButtonClasses[0]}/>
+                        <ChooseButton onClick = {() => chooseTime(300000, 1)} textOnButton = '5 min' classes = {timeButtonClasses[1]}/>
+                        <ChooseButton onClick = {() => chooseTime(900000, 2)} textOnButton = '15 min' classes = {timeButtonClasses[2]}/>
+                    </div>
+                    <div className='online-register-submit-container'>
+                        <OptionButton onClick = {() => isUserRegistered()} buttonText = 'Submit'/>
+                    </div>
+                    <Popup className='mixed-popup' open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
+                        <MixedArmyPopup whenChosen = {chooseMix} player = {1} pieceList = {availablePieces}/> 
+                    </Popup>
                 </div>
-                <h1 className='online-register-header'>Choose preferred time</h1>
-                <div className = 'time-chooser'>
-                    <ChooseButton onClick = {() => chooseTime(180000, 0)} textOnButton = '3 min' classes = {timeButtonClasses[0]}/>
-                    <ChooseButton onClick = {() => chooseTime(300000, 1)} textOnButton = '5 min' classes = {timeButtonClasses[1]}/>
-                    <ChooseButton onClick = {() => chooseTime(900000, 2)} textOnButton = '15 min' classes = {timeButtonClasses[2]}/>
-                </div>
-                <div className='online-register-submit-container'>
-                    <OptionButton onClick = {() => isUserRegistered()} buttonText = 'Submit'/>
-                </div>
-                <Popup className='mixed-popup' open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
-                    <MixedArmyPopup whenChosen = {chooseMix} player = {1} pieceList = {availablePieces}/> 
-                </Popup>
             </div>
             }          
         </div>

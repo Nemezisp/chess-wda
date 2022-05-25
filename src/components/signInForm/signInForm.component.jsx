@@ -1,6 +1,7 @@
 import { useState } from 'react'
 
-import { signInWithGooglePopup, signInAuthUserWithEmailAndPassword } from '../../utils/firebase.utils'
+import { signInWithGooglePopup, signInAuthUserWithEmailAndPassword, getUserFromDatabase } from '../../utils/firebase.utils'
+import { useDispatch } from 'react-redux';
 
 import "./signInForm.styles.css";
 
@@ -10,6 +11,7 @@ const defaultFormFields = {
 }
 
 const SignInForm = () => {
+    const dispatch = useDispatch()
 
     const [formFields, setFormFields] = useState(defaultFormFields)
     const [isSigningIn, setIsSigningIn] = useState(false)

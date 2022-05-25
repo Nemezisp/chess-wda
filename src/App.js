@@ -14,12 +14,13 @@ const App = ({gameMode, currentUser}) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener(async (user) => {
-      if(user) {
-        await createUserDocumentFromAuth(user)
-        const userData = await getUserFromDatabase(user.uid)
-        dispatch(setCurrentUser(userData))
-      } else {
-        dispatch(setCurrentUser(user))
+      if (!user) { // signout
+        dispatch(setCurrentUser(null))
+      } else { 
+        const userData = await createUserDocumentFromAuth(user)
+        if (userData && userData.displayName) { // sign in (Google or email + password)
+          dispatch(setCurrentUser(userData))
+        }
       }
     })
     return unsubscribe
