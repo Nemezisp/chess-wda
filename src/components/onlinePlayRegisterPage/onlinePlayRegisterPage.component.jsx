@@ -5,12 +5,13 @@ import PieceChooseMenu from './../pieceChooseMenu/pieceChooseMenu.component';
 import {MixedArmyPopup} from './../mixedArmyPopup/mixedArmyPopup.component';
 import OnlinePlayLobby from './../onlinePlayLobby/onlinePlayLobby.component';
 import availablePieces from './../pieces/availablePieces';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {socket} from './../socket';
 import ChooseButton from '../chooseButton/chooseButton.component';
 import { OptionButton } from '../optionButton/optionButton.component';
-
 import {setOnlineUserData} from './../../redux/actions';
+import {selectCurrentUser} from './../../redux/selectors';
+import UserMenu from "../userMenu/userMenu.component";
 
 let chosenPieces = []
 let army;
@@ -20,8 +21,10 @@ const OnlinePlayRegisterPage = () => {
     const [mixed, setMixed] = useState(false)
     const [buttonClasses, setButtonClasses] = useState([null, null, null, null, null]) 
     const [timeButtonClasses, setTimeButtonClasses] = useState([null, null, null])
-    const [username, setUsername] = useState('')
     const [preferredTime, setPrefferedTime] = useState(null)
+
+    const user = useSelector(selectCurrentUser)
+    const username = user ? user.displayName : null
 
     const dispatch = useDispatch()
     const handleSetOnlineUserData = (userData) => dispatch(setOnlineUserData(userData))
@@ -90,13 +93,9 @@ const OnlinePlayRegisterPage = () => {
 
     }
 
-    const handleUsernameChange = (event) => {
-        setUsername(event.target.value)
-    }
-
     const isUserRegistered = () => {
         console.log(chosenPieces.length)
-        if (chosenPieces.length && username && preferredTime) {
+        if (chosenPieces.length && preferredTime) {
             let pieceNames = chosenPieces.map(piece => {
                 let tempPiece = new piece(1)
                 return tempPiece.pieceName
@@ -117,14 +116,11 @@ const OnlinePlayRegisterPage = () => {
     }
 
     return (
-        <div>
+        <div className='online-container'>
+            <UserMenu/>
             {userRegistered ? <OnlinePlayLobby/> 
             : 
             <div className = 'register-container'>
-                <h1 className='online-register-header'>Set your username</h1>
-                <div className = 'online-play-form'>
-                    <input className = 'username-input' type="text" id="username" value={username} onChange={handleUsernameChange}/>
-                </div>
                 <h1 className='online-register-header'>Choose your army</h1>
                 <div className='online-chooser-container'>
                     <PieceChooseMenu classList = {buttonClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)}} />

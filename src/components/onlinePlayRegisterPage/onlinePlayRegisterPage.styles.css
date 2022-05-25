@@ -2,6 +2,10 @@
     color: white;
 }
 
+.online-container {
+    height: 100vh;
+}
+
 .black-popup {
     background-color: black;
 }
@@ -13,7 +17,7 @@
 }
 
 .register-container {
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,11 +27,6 @@
 .username-input {
     width: 20vw;
     height: 30px;
-}
-
-.online-play-form {
-    display: flex;
-    justify-content: center;
 }
 
 .submit-button {

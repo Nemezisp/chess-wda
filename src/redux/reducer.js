@@ -17,7 +17,8 @@ const INITIAL_STATE = {
     gameMode: null,
     onlineUserData: null,
     onlinePlayerNumber: null,
-    drawOfferActive: false
+    drawOfferActive: false,
+    currentUser: null
 }
 
 const reducer = (state = INITIAL_STATE, action) => {
@@ -204,8 +205,16 @@ const reducer = (state = INITIAL_STATE, action) => {
                 onlinePlayerNumber: null,
                 drawOfferActive: false
             }
+        case ActionTypes.RESET_APP:
+            return {
+                INITIAL_STATE
+            }
+        case ActionTypes.SET_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: action.payload
+            }
         default:
-            console.log('default')
             return state;
     }
 }

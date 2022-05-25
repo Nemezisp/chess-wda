@@ -116,10 +116,10 @@ const PieceChooser = () => {
     return (
         <div>
             <div className = 'chooser-container'>
-                <h1>CHOOSE ARMY FOR WHITE</h1>
+                <h1>Choose army for White:</h1>
                 <PieceChooseMenu classList = {buttonWhiteClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)
                                                                                                                 player = 1}} />
-                <h1>CHOOSE ARMY FOR BLACK</h1>
+                <h1>Choose army for Black:</h1>
                 <PieceChooseMenu classList = {buttonBlackClasses} player = {2} choose = {choose} onMixed = {() => {setMixed(true)
                                                                                                             player = 2}} />
             </div>

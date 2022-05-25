@@ -29,3 +29,5 @@ export const selectOnlineUserData = (state) => state.onlineUserData
 export const selectOnlinePlayerNumber = (state) => state.onlinePlayerNumber
 
 export const selectDrawOfferActive = (state) => state.drawOfferActive
+
+export const selectCurrentUser = (state) => state.currentUser

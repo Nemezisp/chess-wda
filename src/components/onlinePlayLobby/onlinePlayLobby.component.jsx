@@ -92,7 +92,6 @@ const OnlinePlayLobby = () => {
         }
         return pieces;
     }
-    
 
     if (users.length) {
         if (!boardReady) {

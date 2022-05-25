@@ -120,3 +120,12 @@ export const declineDrawOffer = () => ({
 export const resetOnlineGame = () => ({
     type: ActionTypes.RESET_ONLINE_GAME
 })
+
+export const setCurrentUser = (user) => ({
+    type: ActionTypes.SET_CURRENT_USER,
+    payload: user
+})
+
+export const resetApp = () => ({
+    type: ActionTypes.RESET_APP
+})

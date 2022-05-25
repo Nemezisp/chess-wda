@@ -1,0 +1,23 @@
+.auth-label {
+    font-size: 14px;
+    font-weight: normal;
+    transition: 300ms ease all;
+    font-weight: bold;
+    margin-top: 7px;
+    margin-bottom: 5px;
+}
+
+.auth-input {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.auth-form {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.auth-input > input {
+    padding: 10px;
+}
