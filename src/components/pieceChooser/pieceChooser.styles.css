@@ -1,13 +1,35 @@
+.chooser-outer-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .chooser-container{
-    height: 100vh;
-    display: grid;
-    align-content: center;
-    justify-items: center;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  height: 100%;
 }
 
 .mixed-popup-content {
-    width: max(320px, 50%)
+  width: max(320px, 50%)
 }
+
+.route-change-button {
+  margin-top: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.5s;
+  text-align: center;
+  color:white;
+}
+
+.route-change-button:hover {
+  color: grey;
+} 
 
 h1 {
     font-size: 40px;
@@ -19,4 +41,14 @@ h1 {
   h1 {
     font-size: 30px;
   }
+}
+
+@media only screen and (max-width: 480px) {
+  .route-change-button {
+    margin-top:20px;
+  }
+}
+
+.chooser-top-header {
+  margin-top: 0px;
 }

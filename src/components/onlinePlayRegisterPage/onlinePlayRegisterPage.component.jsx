@@ -12,6 +12,7 @@ import { OptionButton } from '../optionButton/optionButton.component';
 import {setOnlineUserData} from './../../redux/actions';
 import {selectCurrentUser} from './../../redux/selectors';
 import UserMenu from "../userMenu/userMenu.component";
+import Logo from '../logo/logo.component';
 
 let chosenPieces = []
 let army;
@@ -100,6 +101,8 @@ const OnlinePlayRegisterPage = () => {
                 return tempPiece.pieceName
             })
             socket.emit('registration', username, army, pieceNames, preferredTime)
+            setTimeButtonClasses([null, null, null])
+            setButtonClasses([null, null, null, null])
             setUserRegistered(true)
             return true
         } else {
@@ -116,11 +119,12 @@ const OnlinePlayRegisterPage = () => {
 
     return (
         <div>
-            {userRegistered ? <OnlinePlayLobby/> 
+            {userRegistered ? <OnlinePlayLobby setUserRegistered={setUserRegistered}/> 
             : 
             <div className='online-container'>
                 <UserMenu/>
                 <div className = 'register-container'>
+                    <Logo/>
                     <h1 className='online-register-header'>Choose your army</h1>
                     <div className='online-chooser-container'>
                         <PieceChooseMenu classList = {buttonClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)}} />

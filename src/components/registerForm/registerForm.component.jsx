@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { setCurrentUser } from '../../redux/actions';
-import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth, getUserFromDatabase } from '../../utils/firebase.utils';
+import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from '../../utils/firebase.utils';
 import { useDispatch } from 'react-redux';
 
 import "./registerForm.styles.css";

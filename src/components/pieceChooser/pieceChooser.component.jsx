@@ -6,13 +6,15 @@ import Empty from './../pieces/empty/empty';
 import King from './../pieces/king/king';
 import Pawn from './../pieces/pawn/pawn';
 
+import Logo from '../logo/logo.component';
+
 import availablePieces from './../pieces/availablePieces';
 
 import {MixedArmyPopup} from './../mixedArmyPopup/mixedArmyPopup.component';
 import PieceChooseMenu from './../pieceChooseMenu/pieceChooseMenu.component';
 import './pieceChooser.styles.css'
 
-import {setStartingPosition, setUniquePieces} from '../../redux/actions';
+import {setStartingPosition, setUniquePieces, setOnlineGame} from '../../redux/actions';
 
 import {useDispatch} from 'react-redux';
 
@@ -114,19 +116,22 @@ const PieceChooser = () => {
     }
 
     return (
-        <div>
+        <div className='chooser-outer-container'>
+            <Logo/>
             <div className = 'chooser-container'>
-                <h1>Choose army for White:</h1>
+                <h1 className='chooser-top-header'>Choose army for White:</h1>
                 <PieceChooseMenu classList = {buttonWhiteClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)
                                                                                                                 player = 1}} />
                 <h1>Choose army for Black:</h1>
                 <PieceChooseMenu classList = {buttonBlackClasses} player = {2} choose = {choose} onMixed = {() => {setMixed(true)
                                                                                                             player = 2}} />
+                <div className='route-change-button' onClick={() => dispatch(setOnlineGame())}>Switch To Online</div>
             </div>
         
             <Popup className='mixed-popup' open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
                 <MixedArmyPopup whenChosen = {chooseMix} player = {player} pieceList = {availablePieces}/> 
             </Popup>
+
         </div>
     )
 }

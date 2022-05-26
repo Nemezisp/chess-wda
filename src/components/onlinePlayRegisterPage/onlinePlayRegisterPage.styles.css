@@ -60,4 +60,8 @@
         grid-column-start: span 2;
         justify-self: center;
     }
+
+    .online-register-submit-container {
+        width: 320px;
+    }
 }

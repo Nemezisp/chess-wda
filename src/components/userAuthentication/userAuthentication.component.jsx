@@ -13,6 +13,8 @@ const UserAuthentication = () => {
     return (
         <div className='auth-container'>
             <div className='auth-inner-container'>
+                <img style={{width: "250px", height:"auto", cursor:"unset"}} className='logo' src = {require('./../logo/logo-black.png')}/>
+
                 <div className='auth-form-container'>
                     {
                         authRoute === "signIn" && 
@@ -26,7 +28,7 @@ const UserAuthentication = () => {
                 <div className='auth-routes-container'>
                     {authRoute === "signIn" && <div className='auth-route-change-button' onClick={() => setAuthRoute("register")}>Register</div>}
                     {authRoute === "register" && <div className='auth-route-change-button' onClick={() => setAuthRoute("signIn")}>Sign In</div>}
-                    <div className='auth-route-change-button' onClick={() => dispatch(setLocalGame())}>Change to Local</div>
+                    <div className='auth-route-change-button' onClick={() => dispatch(setLocalGame())}>Switch to Local</div>
                 </div>
             </div>
         </div> 

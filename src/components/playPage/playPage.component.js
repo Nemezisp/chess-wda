@@ -142,11 +142,11 @@ const PlayPage = ({opponentUsername}) => {
           <span className = 'time'>{gameMode === 'online' ? playerTime : null}</span>
         </div>
         <div className = 'left-board-side'>
-          {gameResult ? <span className = 'game-ended'>GAME ENDED</span>
-                      : player === 2 ? <span className = {blackToMoveClass}>BLACK TO MOVE</span> 
-                                    : <span className = {whiteToMoveClass}>WHITE TO MOVE</span>}
+          {gameResult ? <span className = 'game-ended'>Game Ended</span>
+                      : player === 2 ? <span className = {blackToMoveClass}>Black to move</span> 
+                                    : <span className = {whiteToMoveClass}>White to move</span>}
           {drawOfferActive ? <div className = 'draw-offered-menu hide-on-mobile'>
-                              <span>DRAW OFFERED</span>
+                              <span>Draw Offered</span>
                               <button onClick = {acceptDraw}>Accept</button>
                               <button onClick = {handleDeclineDrawOffer}>Decline</button>
                             </div>

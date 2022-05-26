@@ -5,6 +5,7 @@ import availablePieces from './../pieces/availablePieces';
 import PlayPage from '../playPage/playPage.component';
 import {socket} from './../socket';
 import UserMenu from '../userMenu/userMenu.component';
+import Logo from '../logo/logo.component';
 
 import Forbidden from './../pieces/forbidden/forbidden';
 import Empty from './../pieces/empty/empty';
@@ -16,7 +17,7 @@ import { selectBoardReady, selectOnlineUserData } from '../../redux/selectors';
 
 let opponentUsername = null;
 
-const OnlinePlayLobby = () => {
+const OnlinePlayLobby = ({setUserRegistered}) => {
     const dispatch = useDispatch()
 
     const onlineUserData = useSelector(selectOnlineUserData)
@@ -56,6 +57,11 @@ const OnlinePlayLobby = () => {
 
     const initiateStartGame = (id) => {
         socket.emit('initiateStartGame', id)
+    }
+
+    const handleChangePieces = () => {
+        setUserRegistered(false)
+        socket.emit('leaveLobby')
     }
 
     const getStartingPositionArray = (whitePieceList, blackPieceList) => {  //create an array with all pieces on starting squares in 10x12 board representation
@@ -99,31 +105,34 @@ const OnlinePlayLobby = () => {
             return(
                 <div>
                     <UserMenu/>
-                    <table className = 'current-users-table'>
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Army</th>
-                                <th>Preffered time</th>
-                                <th>In play</th>
-                                <th>Play with user</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((user) => {
-                                return (
-                                    <tr key = {user.id} className = 'user-in-lobby'>
-                                        <td>{user.username} </td>
-                                        <td>{user.army}</td>
-                                        <td>{user.prefferedTime/60000 + ' min'}</td>
-                                        <td>{user.inPlay ? 'yes' : 'no' }</td>
-                                        {onlineUserData.id === user.id ? <td>That's you</td> 
-                                                                    :  user.inPlay ? <td>In play</td> : <td><button onClick = {() => initiateStartGame(user.id)}>Play</button></td>}
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
+                    <Logo/>
+                    <div>
+                        <table className = 'current-users-table'>
+                            <thead>
+                                <tr>
+                                    <th className='current-users-table-header'>Username</th>
+                                    <th className='current-users-table-header'>Army</th>
+                                    <th className='current-users-table-header'>Preffered time</th>
+                                    <th className='current-users-table-header'>In play</th>
+                                    <th className='current-users-table-header'>Play with user</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user) => {
+                                    return (
+                                        <tr key = {user.id} className = 'user-in-lobby'>
+                                            <td>{user.username.length > 15 ? user.username.slice(0, 15) + "..." : user.username} </td>
+                                            <td>{user.army}</td>
+                                            <td>{user.prefferedTime/60000 + ' min'}</td>
+                                            <td>{user.inPlay ? 'yes' : 'no' }</td>
+                                            {onlineUserData.id === user.id ? <td><button className='lobby-button' onClick = {handleChangePieces}>Change your army</button></td> 
+                                                                        :  user.inPlay ? <td>In play</td> : <td><button className='lobby-button' onClick = {() => initiateStartGame(user.id)}>Challenge</button></td>}
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             )
         } else {

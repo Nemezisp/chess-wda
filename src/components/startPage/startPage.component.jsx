@@ -3,6 +3,7 @@ import './startPage.styles.css';
 import {useDispatch} from 'react-redux';
 import ChooseButton from './../chooseButton/chooseButton.component';
 import {setLocalGame, setOnlineGame} from '../../redux/actions';
+import Logo from '../logo/logo.component';
 
 const StartPage = () => {
     const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const StartPage = () => {
 
     return (
         <div className = 'start-page'>
+            <Logo/>
             <h1> Choose game mode: </h1>
             <div className='start-page-buttons'>
                 <span className = 'local-play-button'><ChooseButton onClick = {() => handleSetLocalGame()} textOnButton = 'Local play'/></span>

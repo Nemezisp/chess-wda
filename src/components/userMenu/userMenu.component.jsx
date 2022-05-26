@@ -46,6 +46,7 @@ const UserMenu = () => {
                 <h3 className="username-change-heading">Change username:</h3>
                 <input className="username-change-input" type="text" name="username" onChange={handleChange} required value={usernameInput}></input>
                 <button type="submit" className="user-menu-button user-menu-inverted-button" onClick={() => handleChangeUsername()}>Save</button>
+                <div className="popup-close" onClick={() => setUsernameChangePopupOpen(false)}>&times;</div>
             </Popup>
         </div>
     )

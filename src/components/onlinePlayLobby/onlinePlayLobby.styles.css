@@ -1,13 +1,78 @@
-.current-users-table{
-    color: white;
-}
-
 .current-users-table {
-    width: 100%;
+    color: white;
+    border-spacing: 0px;
+    width: 1000px;
     margin: 0 auto;
     text-align: center;
+    border: 1px solid white;
+    border-collapse: collapse;
+    border-right: 0px;
 }
 
-th {
-    height: 100px;
+.current-users-table-header {
+    height: 50px;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+    font-size: 18px;
+}
+
+.user-in-lobby > td {
+    height: 40px;
+    border-right: 1px solid white;
+}
+
+.user-in-lobby:nth-child(2n-1) {
+    background-color: #333;
+}
+
+.lobby-button {
+    background-color: white;
+    border: none;
+    padding: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: black;
+}
+
+.lobby-button:hover {
+    color: grey;
+}
+
+@media only screen and (max-width: 1024px) {
+    .current-users-table {
+      width: 750px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .current-users-table {
+      width: 470px;
+    }
+    .current-users-table-header {
+        font-size: 14px;
+    }
+
+    .current-users-table {
+        font-size: 14px;
+    }
+
+    .lobby-button {
+        font-size: 12px;
+        width: 80px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .user-in-lobby > td:nth-child(3),
+    .user-in-lobby > td:nth-child(2),
+    .current-users-table-header:nth-child(2),
+    .current-users-table-header:nth-child(3) {
+        display: none;
+    }
+
+    .current-users-table {
+        width: 310px;
+    }
 }
