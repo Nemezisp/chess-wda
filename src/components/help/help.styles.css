@@ -29,6 +29,10 @@
     width: 50%;
 }
 
+.help-option-button-container > .option {
+    justify-content: center;
+}
+
 .arrows {
     width: max(32vw, 240px);
     display: flex;

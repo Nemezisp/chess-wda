@@ -6,6 +6,7 @@ import {Help} from '../help/help.component';
 import {Options} from '../options/options.component';
 import Notation from '../notation/notation.component';
 import OnlineButtonMenu from '../onlineButtonMenu/onlineButtonMenu.component';
+import {OptionButton} from '../optionButton/optionButton.component'
 import { useSelector, useDispatch } from "react-redux";
 
 import {resetGame, toggleHelp, toggleNotation, acceptDrawOffer, declineDrawOffer, setGameResult, resetOnlineGame} from '../../redux/actions';
@@ -40,32 +41,34 @@ const PlayPage = ({opponentUsername}) => {
   const pieces = useSelector(selectPieces)
 
   useEffect(() => {
-    socket.on('changeTime', (time, id) => {
-      id === onlineUserData.id ? setPlayerTime(time) : setOpponentTime(time)
-    })
-
-    socket.on('setStartingTime', (time) => {
-      setPlayerTime(time)
-      setOpponentTime(time)
-    })
-
-    socket.on('timeEnded', (id) => {
-      if ((id === onlineUserData.id && onlinePlayerNumber === 1) || (id !== onlineUserData.id && onlinePlayerNumber === 2)) {
-        if (!checkIfDrawAfterTimeEnded(2)) {
-          handleSetGameResult('0-1')
+    if(gameMode === "online") {
+      socket.on('changeTime', (time, id) => {
+        id === onlineUserData.id ? setPlayerTime(time) : setOpponentTime(time)
+      })
+  
+      socket.on('setStartingTime', (time) => {
+        setPlayerTime(time)
+        setOpponentTime(time)
+      })
+  
+      socket.on('timeEnded', (id) => {
+        if ((id === onlineUserData.id && onlinePlayerNumber === 1) || (id !== onlineUserData.id && onlinePlayerNumber === 2)) {
+          if (!checkIfDrawAfterTimeEnded(2)) {
+            handleSetGameResult('0-1')
+          }
+        } else if ((id === onlineUserData.id && onlinePlayerNumber === 2) || (id !== onlineUserData.id && onlinePlayerNumber === 1)) {
+          if (!checkIfDrawAfterTimeEnded(1)) {
+            handleSetGameResult('1-0')
+          }
         }
-      } else if ((id === onlineUserData.id && onlinePlayerNumber === 2) || (id !== onlineUserData.id && onlinePlayerNumber === 1)) {
-        if (!checkIfDrawAfterTimeEnded(1)) {
-          handleSetGameResult('1-0')
+      })
+  
+      socket.on('userLeftGame', (gameEnded) => { 
+        if (!(gameEnded) && boardReady) {
+          onlinePlayerNumber === 1 ? handleSetGameResult('1-0') : handleSetGameResult('0-1')
         }
-      }
-    })
-
-    socket.on('userLeftGame', (gameEnded) => { 
-      if (!(gameEnded) && boardReady) {
-        onlinePlayerNumber === 1 ? handleSetGameResult('1-0') : handleSetGameResult('0-1')
-      }
-    })
+      })
+    }
   }, [])
 
   let blackToMoveClass = 'black-move';
@@ -99,8 +102,8 @@ const PlayPage = ({opponentUsername}) => {
         <Notation close = {handleToggleNotation}/> 
         {drawOfferActive ? <div className = 'draw-offered-menu show-on-mobile-only'>
                               <span>DRAW OFFERED</span>
-                              <button onClick = {acceptDraw}>Accept</button>
-                              <button onClick = {handleDeclineDrawOffer}>Decline</button>
+                              <OptionButton onClick = {acceptDraw} buttonText = 'Accept'/>
+                              <OptionButton onClick = {handleDeclineDrawOffer} buttonText = 'Decline'/>
                             </div>
                           : gameMode === "online" && !gameResult && <div className='show-on-mobile-only'><OnlineButtonMenu/></div>}
       </div>
@@ -154,8 +157,8 @@ const PlayPage = ({opponentUsername}) => {
                                            : <span className = {whiteToMoveClass}>White to move</span>}
           {drawOfferActive ? <div className = 'draw-offered-menu hide-on-mobile'>
                               <span>Draw Offered</span>
-                              <button onClick = {acceptDraw}>Accept</button>
-                              <button onClick = {handleDeclineDrawOffer}>Decline</button>
+                              <OptionButton onClick = {acceptDraw} buttonText = 'Accept'/>
+                              <OptionButton onClick = {handleDeclineDrawOffer} buttonText = 'Decline'/>
                             </div>
                            : gameMode === "online" && !gameResult && <div className='hide-on-mobile grid-row-2'><OnlineButtonMenu/></div>}
         </div>

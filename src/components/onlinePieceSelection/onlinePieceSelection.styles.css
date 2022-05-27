@@ -48,6 +48,8 @@
 .online-register-submit-container {
     margin-top: 20px;
     width: 350px;
+    display: flex;
+    justify-content: center;
 }
 
 @media only screen and (max-width: 768px) {

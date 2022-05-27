@@ -1,21 +1,21 @@
 .option-button {
-	padding: 10px;
+	padding: 7px;
 	background-color: white;
-	font-size: 17px;
+	font-size: 16px;
+	font-weight: bold;
 	cursor: pointer;
 	margin-top: 10px;
 	border-radius: 5px;
 	width: 120px;
+	transition: 0.5s;
 }
 
 .option-button:hover {
-	color: grey;
+	background-color: grey;
 }
 
 .option {
-	width: 100%;
 	display: flex;
-	justify-content: center;
 }
 
 @media only screen and (max-width: 1024px) {

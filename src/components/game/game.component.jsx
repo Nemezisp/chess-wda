@@ -114,20 +114,20 @@ class Game extends React.Component {
         }
     }
 
-    handleClick = (piece, chosenSquare) => {
+    handleClick = (piece, square) => {
         const {activePlayer, pieces, possibleMoves, previousMoves, piecePromotionActive, addMoveToPreviousMoves, gameResult,
             setPossibleMoves, resetMove, makeMove, startPromotion, changeActivePlayer, movingLocked, onlinePlayerNumber, gameMode} = this.props; 
         let tempPossibleMoves = [];
-        let currentPiece = pieces[chosenSquare];  //take a piece from pieces array 
+        let currentPiece = pieces[square];  //take a piece from pieces array 
         if (!chosenPieceSquare && !piecePromotionActive && !gameResult && !movingLocked && (gameMode === "local" || onlinePlayerNumber === activePlayer)){ //if a piece is not chosen 
             if((piece.number > 0 && activePlayer === 1) || (piece.number < 0 && activePlayer === 2)) { //piece has to be in the right color
-                let maybePossibleMoves = currentPiece.maybePossibleMoves(chosenSquare, pieces, previousMoves) //all theoretically possible moves
-                tempPossibleMoves = this.checkPossibleMoves(maybePossibleMoves, chosenSquare) //check is king in check after every move
-                chosenPieceSquare = chosenSquare
+                let maybePossibleMoves = currentPiece.maybePossibleMoves(square, pieces, previousMoves) //all theoretically possible moves
+                tempPossibleMoves = this.checkPossibleMoves(maybePossibleMoves, square) //check is king in check after every move
+                chosenPieceSquare = square
             }
 
             if(((piece.number === 6 && activePlayer === 1) || (piece.number === -6 && activePlayer === 2)) && !this.isKingInCheck(0, 0)) { //check if castling may be possible
-                let possibleKingMoves = this.checkPossibleMoves(piece.maybePossibleMoves(chosenSquare, pieces), chosenSquare);
+                let possibleKingMoves = this.checkPossibleMoves(piece.maybePossibleMoves(square, pieces), square);
                 castlingPossible = piece.castlingPossible(pieces, possibleKingMoves);
                 for (let move of castlingPossible){
                     if (!((move === 27 && this.isKingInCheck(26, 24)) || (move === 97 && this.isKingInCheck(96, 44)))){ //needed for colorbound castling
@@ -142,20 +142,20 @@ class Game extends React.Component {
 
         } else if (chosenPieceSquare){ //if a piece was chosen by last click
             let tempChosenPiece = pieces[chosenPieceSquare];
-            if (possibleMoves.includes(chosenSquare)){ //if piece can move to the square
-                if ((pieces[chosenPieceSquare].number === 1 && chosenSquare.toString()[0] === '9') || 
-                    (pieces[chosenPieceSquare].number === -1 && chosenSquare.toString()[0] === '2')) { //check for pawn promotion
+            if (possibleMoves.includes(square)){ //if piece can move to the square
+                if ((pieces[chosenPieceSquare].number === 1 && square.toString()[0] === '9') || 
+                    (pieces[chosenPieceSquare].number === -1 && square.toString()[0] === '2')) { //check for pawn promotion
                     startPromotion()
                     syncPiecePromotionActive = true
                 } else if (castlingPossible && castlingPossible.length !== 0) { //check for castling
-                    this.handleCastling(chosenPieceSquare, chosenSquare);
-                } else if (!this.handleEnPassant(chosenPieceSquare, chosenSquare)) { //check for enpassant, if not just move a piece
-                    makeMove(chosenPieceSquare, chosenSquare);
-                    gameMode === "online" && socket.emit('move', chosenPieceSquare, chosenSquare)
+                    this.handleCastling(chosenPieceSquare, square);
+                } else if (!this.handleEnPassant(chosenPieceSquare, square)) { //check for enpassant, if not just move a piece
+                    makeMove(chosenPieceSquare, square);
+                    gameMode === "online" && socket.emit('move', chosenPieceSquare, square)
                 }        
 
-                addMoveToPreviousMoves(tempChosenPiece.symbol, null, chosenPieceSquare, chosenSquare)
-                gameMode === "online" && socket.emit('addPreviousMove', tempChosenPiece.symbol, chosenPieceSquare, chosenSquare)
+                addMoveToPreviousMoves(tempChosenPiece.symbol, null, chosenPieceSquare, square)
+                gameMode === "online" && socket.emit('addPreviousMove', tempChosenPiece.symbol, chosenPieceSquare, square)
 
                 changeActivePlayer()
                 if (gameMode === "online" && !syncPiecePromotionActive) {
@@ -171,6 +171,7 @@ class Game extends React.Component {
 
     handleCastling = (kingStartSquare, kingEndSquare) => {
         const {activePlayer, castling, makeMove, gameMode} = this.props; 
+        
         if ((activePlayer === 1 && kingEndSquare === 22) || (activePlayer === 2 && kingEndSquare === 92)) { //short castle rook move
             let rookStartSquare = kingEndSquare-1;
             let rookEndSquare = kingEndSquare+1;
@@ -197,7 +198,7 @@ class Game extends React.Component {
 
     handleEnPassant = (startSquare, endSquare) => {
         const {activePlayer, pieces, previousMoves, enPassant, gameMode} = this.props; 
-        if (previousMoves.length > 1 && (pieces[startSquare].number === 1 || pieces[startSquare].number === -1)){
+        if (previousMoves.length > 1 && (pieces[startSquare].number === 1 || pieces[startSquare].number === -1)){ // it has to be at least second move and chosen piece has to be a pawn
             if (pieces[startSquare].checkEnPassant(previousMoves, pieces, startSquare, endSquare)){
                 let pawnToRemoveSquare = activePlayer === 1 ? endSquare-10 : endSquare+10;
                 enPassant(startSquare, endSquare, pawnToRemoveSquare)
@@ -238,7 +239,7 @@ class Game extends React.Component {
             let piece = pieces[pieceSquare]
             if (piece.number === 1 || piece.number === 4 || piece.number === 5 || piece.number === -1 || 
                 piece.number === -4 || piece.number === -5 || activePieces.length > 4 ){
-                return false
+                return false // if there is at least one queen/rook/pawn or if more than 4 pieces
             } else if (piece.number) {
                 activePieces[pieceSquare] = piece
             }
@@ -248,7 +249,7 @@ class Game extends React.Component {
         if (activePiecesNumber === 2){ //only kings
             setGameResult('1/2 : 1/2')
             return true
-        } else if (activePiecesNumber === 3){ //kings and one bishop/knight/fad/waffle/bede
+        } else if (activePiecesNumber === 3){ //check if only kings and one bishop/knight/fad/waffle/bede
             for (let piece of Object.values(activePieces)) {
                 if (((piece.number === 2 || piece.number === -2) && (piece.set === 1 || piece.set === 2)) ||
                     ((piece.number === 3 || piece.number === -3) && (piece.set === 1 || piece.set === 2)) ||
@@ -257,7 +258,7 @@ class Game extends React.Component {
                     return true
                 }
             }
-        } else if (activePiecesNumber === 4){ //kings and two bishops/fads of the same square color
+        } else if (activePiecesNumber === 4){ //check if only kings and two bishops/fads of the same square color
             let fadsAndBishopsSquares = []
             for (let {pieceSquare, piece} of Object.entries(activePieces)){
                 if ((piece.number === 3 || piece.number === -3) && (piece.set === 1 || piece.set === 2)){
@@ -280,7 +281,6 @@ class Game extends React.Component {
             return false
         }
     }
-
     
     checkPossibleMoves = (maybePossibleMoves, pieceSquare) => {
         let possibleMoves = [];

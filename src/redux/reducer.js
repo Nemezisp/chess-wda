@@ -203,7 +203,7 @@ const reducer = (state = INITIAL_STATE, action) => {
                 previousPositions: [],
                 movingLocked: false,
                 onlinePlayerNumber: null,
-                drawOfferActive: false
+                drawOfferActive: false,
             }
         case ActionTypes.RESET_APP:
             return {
