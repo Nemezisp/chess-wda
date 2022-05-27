@@ -1,9 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Popup from "reactjs-popup";
 import Game from '../game/game.component';
-import OnlineGame from '../onlineGame/onlineGame.component';
 import './playPage.styles.css';
-import PieceChooser from '../pieceChooser/pieceChooser.component';
 import {Help} from '../help/help.component';
 import {Options} from '../options/options.component';
 import Notation from '../notation/notation.component';
@@ -12,7 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import {resetGame, toggleHelp, toggleNotation, acceptDrawOffer, declineDrawOffer, setGameResult, resetOnlineGame} from '../../redux/actions';
 import { socket } from '../socket';
-import { selectBoardReady, selectDrawOfferActive, selectGameMode, selectGameResult, selectHelp, selectNotation, selectOnlinePlayerNumber, selectOnlineUserData, selectPieces, selectPlayer, selectUniquePieceList } from '../../redux/selectors';
+import { selectBoardReady, selectDrawOfferActive, selectGameMode, selectGameResult, selectHelp, selectNotation, selectOnlinePlayerNumber, selectOnlineUserData, selectPieces, selectActivePlayer, selectUniquePieceList } from '../../redux/selectors';
 
 const PlayPage = ({opponentUsername}) => {
   
@@ -30,7 +28,7 @@ const PlayPage = ({opponentUsername}) => {
   const handleResetOnlineGame = () => dispatch(resetOnlineGame())
 
   const boardReady = useSelector(selectBoardReady)
-  const player = useSelector(selectPlayer)
+  const activePlayer = useSelector(selectActivePlayer)
   const help = useSelector(selectHelp)
   const uniquePieceList = useSelector(selectUniquePieceList)
   const gameResult = useSelector(selectGameResult)
@@ -82,7 +80,7 @@ const PlayPage = ({opponentUsername}) => {
 
   const checkIfDrawAfterTimeEnded = (player) => {
     for (let piece of pieces) {
-      if (piece.player === player && piece.pieceName !== 'King'){
+      if (piece.player === player && piece.pieceName !== 'King'){ // draw after time end only if player who's time ended has only a king
         return false
       }
     } 
@@ -117,19 +115,25 @@ const PlayPage = ({opponentUsername}) => {
   const renderRightBoardSide = () => {
     return (
       <div className = 'right-board-side'>
-        <div className ='opponent-container'>
-          <span>{opponentUsername}</span>
-          <span className = 'time'>{gameMode === 'online' ? opponentTime : null}</span>
-        </div>
+        {gameMode === "online" && 
+          <div className ='opponent-container'>
+            <span>{opponentUsername.length > 6 ? opponentUsername.slice(0,6) + '...' : opponentUsername}</span>
+            <span className = 'time'> {opponentTime} </span>
+          </div>
+        }
+
         <Popup className='help-popup' open={help} closeOnDocumentClick = {false} closeOnEscape = {false}>
-            <Help pieceList = {uniquePieceList} player = {player} close = {handleToggleHelp}/> 
+            <Help pieceList = {uniquePieceList} player = {gameMode === "online" ? onlinePlayerNumber : activePlayer} close = {handleToggleHelp}/> 
         </Popup> 
         {notation ? renderNotation()
-                  : <Options gameMode = {gameMode} help = {handleToggleHelp} notation = {handleToggleNotation} reset = {gameMode === 'local' ? handleResetGame : leaveGame} player = {player}/>}
-        <div className = 'player-container'>  
-          <span>{username}</span>
-          <span className = 'time'>{gameMode === 'online' ? playerTime : null}</span>
-        </div>
+                  : <Options gameMode = {gameMode} help = {handleToggleHelp} notation = {handleToggleNotation} reset = {gameMode === 'local' ? handleResetGame : leaveGame} />}
+        
+        {gameMode === "online" &&
+          <div className = 'player-container'>  
+            <span>{username.length > 6 ? username.slice(0,6) + '...' : username}</span>
+            <span className = 'time'> {playerTime} </span>
+          </div>
+        }
       </div>
     )
   }
@@ -137,38 +141,41 @@ const PlayPage = ({opponentUsername}) => {
   const renderLeftBoardSide = () => {
     return (
       <div className = 'left-board-side-small-screen'>
-        <div className = 'player-container-small-screen'>  
-          <span>{username && username.length > 6 ? username.slice(0,6) + '...' : username}</span>
-          <span className = 'time'>{gameMode === 'online' ? playerTime : null}</span>
-        </div>
+        {gameMode === "online" &&
+          <div className = 'player-container-small-screen'>  
+            <span>{username.length > 6 ? username.slice(0,6) + '...' : username}</span>
+            <span className = 'time'>{playerTime}</span>
+          </div>
+        }
+
         <div className = 'left-board-side'>
           {gameResult ? <span className = 'game-ended'>Game Ended</span>
-                      : player === 2 ? <span className = {blackToMoveClass}>Black to move</span> 
-                                    : <span className = {whiteToMoveClass}>White to move</span>}
+                      : activePlayer === 2 ? <span className = {blackToMoveClass}>Black to move</span> 
+                                           : <span className = {whiteToMoveClass}>White to move</span>}
           {drawOfferActive ? <div className = 'draw-offered-menu hide-on-mobile'>
                               <span>Draw Offered</span>
                               <button onClick = {acceptDraw}>Accept</button>
                               <button onClick = {handleDeclineDrawOffer}>Decline</button>
                             </div>
-                          : gameMode === "online" && !gameResult && <div className='hide-on-mobile grid-row-2'><OnlineButtonMenu/></div>}
+                           : gameMode === "online" && !gameResult && <div className='hide-on-mobile grid-row-2'><OnlineButtonMenu/></div>}
         </div>
-        <div className ='opponent-container-small-screen'>
-          <span>{opponentUsername && opponentUsername.length > 6 ? opponentUsername.slice(0,6) + '...' : opponentUsername}</span>
-          <span className = 'time'>{gameMode === 'online' ? opponentTime : null}</span>
-        </div>
+
+        {gameMode === "online" && 
+          <div className ='opponent-container-small-screen'>
+            <span>{opponentUsername.length > 6 ? opponentUsername.slice(0,6) + '...' : opponentUsername}</span>
+            <span className = 'time'>{opponentTime}</span>
+          </div>
+        }
       </div>
     )
   }
 
   return (
-    boardReady ? 
-              <div className = 'main-container'>
-                {renderLeftBoardSide()}
-                {gameMode === 'local' ? <Game/> : <OnlineGame/>}
-                {renderRightBoardSide()}
-               </div>
-               : 
-               <PieceChooser/>
+    <div className = 'main-container'>
+      {renderLeftBoardSide()}
+      <Game/>
+      {renderRightBoardSide()}
+    </div>
   )
 }
 

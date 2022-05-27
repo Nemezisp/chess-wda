@@ -56,8 +56,8 @@ export const setUniquePieces = pieceList => ({
     payload: pieceList
 })
 
-export const changePlayer = ()  => ({
-    type: ActionTypes.CHANGE_PLAYER
+export const changeActivePlayer = ()  => ({
+    type: ActionTypes.CHANGE_ACTIVE_PLAYER
 })
 
 export const updatePreviousMove = (specialCase) => ({

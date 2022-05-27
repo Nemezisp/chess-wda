@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import './mixedArmyPopup.styles.css';
 import { Square } from './../square/square.component';
+import availablePieces from '../pieces/availablePieces'
 
 let chosenPieces = [null, null, null, null]
 
-export const MixedArmyPopup = ({player, whenChosen, pieceList}) => {
+export const MixedArmyPopup = ({player, whenChosen}) => {
     if (!(chosenPieces.includes(null))){
         chosenPieces = [null, null, null, null]
     }
@@ -28,7 +29,7 @@ export const MixedArmyPopup = ({player, whenChosen, pieceList}) => {
         <div className = 'mixed-army-popup'>
             <p className = 'main-text'>Compose your army:</p>
             <div className = 'choose-set'>
-                {pieceList.map((piece, i) => {
+                {availablePieces.map((piece, i) => {
                     piece = new piece(player)
                     if (piece.set && piece.number === currentPieceNumber*multiplier) {
                         return (

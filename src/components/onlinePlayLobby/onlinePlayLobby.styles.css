@@ -16,6 +16,27 @@
     font-size: 18px;
 }
 
+.challenge-popup-content {
+    height: 180px;
+    width: 300px;
+}
+
+.challenge-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 50px;
+}
+
+.challenge-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 18px;
+    height: 100%;
+}
+
 .user-in-lobby > td {
     height: 40px;
     border-right: 1px solid white;

@@ -28,11 +28,13 @@ const UserMenu = () => {
     }
 
     const handleChangeUsername = async () => {
-        setUsernameChangePopupOpen(false)
-        const newUserData = await changeUsername(user.uid, usernameInput)
-        dispatch(setCurrentUser(newUserData))
-        socket.emit("updateUsername", usernameInput)
-        resetUsernameField()
+        if (usernameInput !== "") {
+            setUsernameChangePopupOpen(false)
+            const newUserData = await changeUsername(user.uid, usernameInput)
+            dispatch(setCurrentUser(newUserData))
+            socket.emit("updateUsername", usernameInput)
+            resetUsernameField()
+        }
     }
 
     return (

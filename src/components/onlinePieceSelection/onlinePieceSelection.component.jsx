@@ -1,26 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import Popup from "reactjs-popup";
-import './onlinePlayRegisterPage.styles.css'
-import PieceChooseMenu from './../pieceChooseMenu/pieceChooseMenu.component';
-import {MixedArmyPopup} from './../mixedArmyPopup/mixedArmyPopup.component';
-import OnlinePlayLobby from './../onlinePlayLobby/onlinePlayLobby.component';
-import availablePieces from './../pieces/availablePieces';
+import './onlinePieceSelection.styles.css'
+import PieceChooseMenu from '../pieceChooseMenu/pieceChooseMenu.component';
+import {MixedArmyPopup} from '../mixedArmyPopup/mixedArmyPopup.component';
+import availablePieces from '../pieces/availablePieces';
 import {useDispatch, useSelector} from 'react-redux';
-import {socket} from './../socket';
+import {socket} from '../socket';
 import ChooseButton from '../chooseButton/chooseButton.component';
 import { OptionButton } from '../optionButton/optionButton.component';
-import {setOnlineUserData} from './../../redux/actions';
-import {selectCurrentUser} from './../../redux/selectors';
+import {setOnlineUserData} from '../../redux/actions';
+import {selectCurrentUser} from '../../redux/selectors';
 import UserMenu from "../userMenu/userMenu.component";
 import Logo from '../logo/logo.component';
 
 let chosenPieces = []
 let army;
 
-const OnlinePlayRegisterPage = () => {
-    const [userRegistered, setUserRegistered] = useState(false)
+const OnlinePieceSelection = ({setUserRegistered}) => {
     const [mixed, setMixed] = useState(false)
-    const [buttonClasses, setButtonClasses] = useState([null, null, null, null, null]) 
     const [timeButtonClasses, setTimeButtonClasses] = useState([null, null, null])
     const [preferredTime, setPrefferedTime] = useState(null)
 
@@ -41,7 +38,14 @@ const OnlinePlayRegisterPage = () => {
         })
     }, [])
 
+    const [highlightedArmyButtonIndex, setHighlightedArmyButtonIndex] = useState(null)
+    const highlightButton = (buttonIndex) => {
+        setHighlightedArmyButtonIndex(buttonIndex)
+    }
+
     const chooseMix = (pieces) => {
+        highlightButton(4)
+
         chosenPieces = []
         for (let chosenPiece of pieces){
             for (let piece of availablePieces) {
@@ -52,20 +56,14 @@ const OnlinePlayRegisterPage = () => {
                 }
             }
         }
-        let newButtonClasses = [null, null, null, null, 'chosen']
-        setButtonClasses([...newButtonClasses])
+
         setMixed(false)
 
         army = 'Custom army'
     }
 
     const choose = (set, player, buttonNumber) => {
-        chosenPieces = []
-        let tempButtonClasses = buttonClasses; 
-        tempButtonClasses.forEach((buttonClass, index) => {
-            index === buttonNumber ? tempButtonClasses[index] = 'chosen' : tempButtonClasses[index] = null
-        })
-        setButtonClasses([...tempButtonClasses])
+        highlightButton(buttonNumber)
 
         for (let piece of availablePieces) {
             let tempPiece = new piece(1)
@@ -102,7 +100,7 @@ const OnlinePlayRegisterPage = () => {
             })
             socket.emit('registration', username, army, pieceNames, preferredTime)
             setTimeButtonClasses([null, null, null])
-            setButtonClasses([null, null, null, null])
+            setHighlightedArmyButtonIndex(null)
             setUserRegistered(true)
             return true
         } else {
@@ -113,21 +111,19 @@ const OnlinePlayRegisterPage = () => {
     const chooseTime = (time, buttonNumber) => {
         setPrefferedTime(time)
         let tempButtonClasses = [null, null, null]
-        tempButtonClasses[buttonNumber] = 'chosen'
+        tempButtonClasses[buttonNumber] = 'highlighted'
         setTimeButtonClasses([...tempButtonClasses])
     }
 
     return (
         <div>
-            {userRegistered ? <OnlinePlayLobby setUserRegistered={setUserRegistered}/> 
-            : 
             <div className='online-container'>
                 <UserMenu/>
                 <div className = 'register-container'>
                     <Logo/>
                     <h1 className='online-register-header'>Choose your army</h1>
                     <div className='online-chooser-container'>
-                        <PieceChooseMenu classList = {buttonClasses} player = {1} choose = {choose} onMixed = {() => {setMixed(true)}} />
+                        <PieceChooseMenu highlightedButtonIndex={highlightedArmyButtonIndex} player = {1} choose = {choose} onMixed = {() => {setMixed(true)}} />
                     </div>
                     <h1 className='online-register-header'>Choose preferred time</h1>
                     <div className = 'time-chooser'>
@@ -139,13 +135,12 @@ const OnlinePlayRegisterPage = () => {
                         <OptionButton onClick = {() => isUserRegistered()} buttonText = 'Submit'/>
                     </div>
                     <Popup className='mixed-popup' open = {mixed} closeOnDocumentClick = {false} closeOnEscape = {false}>
-                        <MixedArmyPopup whenChosen = {chooseMix} player = {1} pieceList = {availablePieces}/> 
+                        <MixedArmyPopup whenChosen = {chooseMix} player = {1}/> 
                     </Popup>
                 </div>
             </div>
-            }          
         </div>
     )
 }
 
-export default OnlinePlayRegisterPage;
+export default OnlinePieceSelection;

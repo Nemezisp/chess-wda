@@ -3,7 +3,7 @@ import {makeMove, enPassant, castling, piecePromotion} from './utils';
 
 const INITIAL_STATE = {
     pieces: null, 
-    player: 1,
+    activePlayer: 1,
     possibleMoves: [],
     previousMoves: [],
     piecePromotionActive: false,
@@ -108,10 +108,10 @@ const reducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 uniquePieceList: action.payload
             }
-        case ActionTypes.CHANGE_PLAYER:
+        case ActionTypes.CHANGE_ACTIVE_PLAYER:
             return {
                 ...state,
-                player: state.player === 1 ? 2 : 1
+                activePlayer: state.activePlayer === 1 ? 2 : 1
             }
         case ActionTypes.SET_GAME_RESULT:
             return {
@@ -175,7 +175,7 @@ const reducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 pieces: null, 
-                player: 1,
+                activePlayer: 1,
                 possibleMoves: [],
                 previousMoves: [],
                 piecePromotionActive: false,
@@ -191,7 +191,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         case ActionTypes.RESET_ONLINE_GAME:
             return {
                 ...state,
-                player: 1,
+                activePlayer: 1,
                 possibleMoves: [],
                 previousMoves: [],
                 piecePromotionActive: false,

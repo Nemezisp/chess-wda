@@ -2,7 +2,7 @@ export const selectPreviousMoves = (state) => state.previousMoves
 
 export const selectPreviousPositions = (state) => state.previousPositions 
 
-export const selectPlayer = (state) => state.player
+export const selectActivePlayer = (state) => state.activePlayer
 
 export const selectPieces = (state) => state.pieces
 

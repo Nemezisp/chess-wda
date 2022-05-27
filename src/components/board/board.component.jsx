@@ -2,6 +2,8 @@ import React from 'react';
 import { Square } from './../square/square.component'
 import './board.styles.css'
 
+import {isEven} from '../../utils/helperFunctions';
+
 export const Board = ({squareClick, possibleMoves, squareSize, pieces, reversed}) => {
 
     const renderBoard = () => {
@@ -29,8 +31,6 @@ export const Board = ({squareClick, possibleMoves, squareSize, pieces, reversed}
             })
         )
     }
-
-    const isEven = (num) => num % 2 === 0; //isEven to check if a square should be light or dark
 
     let reversedClass = reversed ? 'reversed' : ''
 
