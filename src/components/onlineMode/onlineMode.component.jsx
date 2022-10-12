@@ -22,6 +22,7 @@ const OnlineMode = () => {
         const unsubscribe = onAuthStateChangedListener(async (user) => {
           if (!user) { // signout
             dispatch(setCurrentUser(null))
+            setUserRegistered(false)
           } else { 
             const userData = await createUserDocumentFromAuth(user)
             if (userData && userData.displayName) { // sign in (Google or email + password)
