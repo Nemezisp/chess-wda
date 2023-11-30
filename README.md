@@ -1,5 +1,5 @@
 # Chess With Different Armies
-[Play here!](https://chess-wda.herokuapp.com/)  
+[Play here!](https://chess-wda-nemezisp.vercel.app/)  
 Can be played **locally or online**.
 
 ## Description
